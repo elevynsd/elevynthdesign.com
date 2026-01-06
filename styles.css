@@ -23,21 +23,21 @@
 
 /* Apply TT Hoves to h2 */
 
+
 h2 {
     font-family: 'TT Hoves', sans-serif;
-    font-weight: normal; /* Use normal weight */
-    font-size: 3vh; /* Adjust the size as needed */
-    color: #f5e530; /* Example color - change as needed */
-    text-align: center; /* Center the text */
-    margin-top: -90px; /* Space between h1 and h2 */
+    font-size: 1.5rem;
+    color: #f5e530;
+    margin: 0;
+    font-weight: normal;
+    font-style: normal;
 }
+
 h3 {
     font-family: 'TT Hoves', sans-serif;
-    font-weight: normal; /* Use normal weight */
-    font-size: 3vh; /* Adjust the size as needed */
-    color: #ffffff; /* Example color - change as needed */
-    text-align: center; /* Center the text */
-    margin-top: -15px; /* Space between h1 and h2 */
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin: 0;
 }
 
 
@@ -101,9 +101,27 @@ header {
     font-style: normal;
 }
 
+.h2-container {
+    position: absolute;
+    top: 90vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+}
+
+.h3-container {
+    position: absolute;
+    top: 95vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+}
+
 @media (max-width: 1300px) {
   .title-container {
-    top: 40vh;                 /* move it slightly up */
+    top: 35vh;                 /* move it slightly up */
     white-space: normal;       /* allow wrapping on very small screens */
     width: 90%;
   }
@@ -111,11 +129,26 @@ header {
 
 @media (max-width: 700px) {
   .title-container {
-    top: 35vh;                 /* move it slightly up */
+    top: 45vh;                 /* move it slightly up */
     white-space:initial;       /* allow wrapping on very small screens */
     width: 100%;
-    font-size: 6.5vh;
+    font-size: 5vh;
   }
+   .h2-container {
+    top: 83vh;                 /* move it slightly up */
+    white-space:initial;       /* allow wrapping on very small screens */
+    width: 100%;
+    font-size: 5vh;
+  }
+   .h3-container {
+    top: 87vh;                 /* move it slightly up */
+    white-space:unset;       /* allow wrapping on very small screens */
+    width: 100%;
+    font-size: 4vh;
+    font-weight: normal;
+    font-style: normal;
+  }
+ 
 }
 
 
@@ -149,7 +182,7 @@ header {
 
 /* Container to hold the grouped image and center it */
 .grouped-image {
-    margin-top: -65px;
+    margin-top: -25px;
     display: flex;
     justify-content: right; /* Center image horizontally */
     align-items: center; /* Center image vertically */
