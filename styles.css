@@ -1,0 +1,166 @@
+/* Import Oswald font */
+@font-face {
+    font-family: 'Oswald';
+    src: url('fonts/Oswald-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Import TT Hoves font */
+@font-face {
+    font-family: 'TT Hoves';
+    src: url('fonts/TT-Hoves-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TT Hoves';
+    src: url('fonts/TT-Hoves-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Apply TT Hoves to h2 */
+
+h2 {
+    font-family: 'TT Hoves', sans-serif;
+    font-weight: normal; /* Use normal weight */
+    font-size: 3vh; /* Adjust the size as needed */
+    color: #f5e530; /* Example color - change as needed */
+    text-align: center; /* Center the text */
+    margin-top: -90px; /* Space between h1 and h2 */
+}
+h3 {
+    font-family: 'TT Hoves', sans-serif;
+    font-weight: normal; /* Use normal weight */
+    font-size: 3vh; /* Adjust the size as needed */
+    color: #ffffff; /* Example color - change as needed */
+    text-align: center; /* Center the text */
+    margin-top: -15px; /* Space between h1 and h2 */
+}
+
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Oswald', sans-serif; /* Apply Oswald as the default font */
+}
+
+.video-background {
+    position: fixed; /* Position it relative to the body */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width of the screen */
+    height: 100vh; /* Full viewport height */
+    z-index: -1; /* Keep the video in the background */
+}
+
+.video-background video {
+    width: 100%; /* Scale the video to 100% of the width */
+    height: 100%; /* Scale the video to 100% of the height */
+    object-fit: cover; /* Ensure it covers the entire screen, cropping if necessary */
+    object-position: center center; /* Ensure the video stays centered */
+}
+
+header {
+    position:absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo {
+    width: auto;
+    height: 100px;
+}
+
+.title-container {
+    position: absolute;
+    top: 550px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    text-align: center;
+    color: #f5e530;
+    font-size: 4rem;
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    font-style: normal;
+}
+
+@media (max-width: 1300px) {
+  .title-container {
+    top: 40vh;                 /* move it slightly up */
+    white-space: normal;       /* allow wrapping on very small screens */
+    width: 90%;
+  }
+}
+
+@media (max-width: 700px) {
+  .title-container {
+    top: 35vh;                 /* move it slightly up */
+    white-space:initial;       /* allow wrapping on very small screens */
+    width: 100%;
+    font-size: 6.5vh;
+  }
+}
+
+
+.white-section {
+    background-color: white;
+    height: 10000px;
+    width: 100%;
+    margin-top: 100vh;
+    position: relative;
+    padding-top: 30px;
+    text-align: center;
+}
+
+
+
+   /* Container to hold the greenbox image and left align */
+.fixed-left {
+    display: flex;
+    justify-content: flex-start; /* Center image horizontally */
+    align-items: center; /* Center image vertically */
+    width: 100%; /* Make the container take full width */
+}
+
+/* Ensure the image stays at a fixed size */
+.fixed-left img {
+    width: auto; /* Maintain the aspect ratio of the image */
+    height: auto; /* Allow the height to adjust proportionally */
+    max-width: 80%; /* Optional: limit the width to prevent image from being too large */
+}
+
+
+/* Container to hold the grouped image and center it */
+.grouped-image {
+    margin-top: -65px;
+    display: flex;
+    justify-content: right; /* Center image horizontally */
+    align-items: center; /* Center image vertically */
+    width: 100%; /* Make the container take full width */
+}
+
+/* Ensure the image stays at a fixed size */
+.grouped-image img {
+    width: auto; /* Maintain the aspect ratio of the image */
+    height: auto; /* Allow the height to adjust proportionally */
+    max-width: 80%; /* Optional: limit the width to prevent image from being too large */
+}
+
+
