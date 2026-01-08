@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+   <header>
+    <a href="index.html">
+        <div class="logo-container">
+            <img src="images/black logo.svg" alt="Logo" class="logo">
+        </div>
+    </a>
+</header>
+
+    
+    <!-- Background and content container -->
+    <div class="gallery-container">
+        <div class="image-gallery">
+          
+            <div class="gallery-item">
+                <img src="images/iad/1.svg"  />
+            </div>
+
+            <div class="gallery-item">
+                <img src="images/iad/2.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/3.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/4.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/5.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/6.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/7.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/8.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/9.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/10.svg"  />
+            </div>
+
+             <div class="gallery-item">
+                <img src="images/iad/11.svg"  />
+            </div>
+            <!-- More gallery items here -->
+
+        </div>
+        <!-- Modal -->
+<div id="imageModal" class="modal">
+    <span class="close" id="closeModal">&times;</span>
+    <img id="modalImage" class="modal-content" />
+    <div id="modalCaption"></div>
+</div>
+
+    </div>
+
+    <footer>
+     <a href="index.html">
+        <div class="logo-container">
+            <img src="images/orange logo.svg" alt="Logo" class="logo">
+        </div>
+    </a>
+</footer>
+
+</body>
+</html>
+
+<script>
+// Get modal and images
+const modal = document.getElementById('imageModal');
+const modalImg = document.getElementById('modalImage');
+const captionText = document.getElementById('modalCaption');
+const closeModal = document.getElementById('closeModal');
+
+// Get all images and add click event
+const images = document.querySelectorAll('.gallery-item img');
+images.forEach((img) => {
+    img.onclick = function () {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+});
+
+// Close the modal when the user clicks on the close button
+closeModal.onclick = function () {
+    modal.style.display = "none";
+}
+
+// Close modal when user clicks outside the image
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+

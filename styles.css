@@ -1,3 +1,13 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+
 /* Import Oswald font */
 @font-face {
     font-family: 'Oswald';
@@ -75,24 +85,52 @@ header {
     z-index: 1;
 }
 
+/* Positioning the logo container */
+.vsco-container {
+    justify-content: left;
+    align-items: left;
+    position:absolute;
+    top: 1%;
+    left: 7%;
+    transform: translateX(-50%);
+    display: inline-block; /* Ensure it's a clickable block */
+    cursor: pointer; /* Makes it clickable */
+    scale: 55%;
+}
+
+/* Styling for the logo */
+.vsco-logo{
+    width: auto;
+    height: 150px; /* Adjust as needed */
+}
+
+/* Positioning the logo container */
 .logo-container {
-    display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
     top: 10%;
     left: 50%;
     transform: translateX(-50%);
+    display: inline-block; /* Ensure it's a clickable block */
+    cursor: pointer; /* Makes it clickable */
 }
 
+/* Styling for the logo */
 .logo {
     width: auto;
-    height: 100px;
+    height: 100px; /* Adjust as needed */
 }
+
+/* Styling for the anchor link to remove default underline */
+a {
+    text-decoration: none; /* Remove default underline */
+}
+
 
 .title-container {
     position: absolute;
-    top: 550px;
+    top: 500px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -105,7 +143,7 @@ header {
 
 .h2-container {
     position: absolute;
-    top: 90vh;
+    top: 85vh;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -114,7 +152,7 @@ header {
 
 .h3-container {
     position: absolute;
-    top: 95vh;
+    top: 90vh;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -170,49 +208,214 @@ header {
 }
 
 
-.white-section {
-    background-color: white;
-    height: 8000px;
-    width: 100%;
-    margin-top: 100vh;
+.white-section{
+  background: #fff;
+
+  width: min(1400px, calc(100% - 26px));
+  margin: 100vh auto 0;
+
+  padding: 0;              /* IMPORTANT: no padding on the panel */
+  position: relative;
+  text-align: center;
+
+  min-height: 100vh;
+  height: auto;
+}
+
+.white-section .content{
+  padding-top: -30px;       /* your spacing lives here instead */
+}
+
+
+
+
+
+.full-bleed {
+  width: 100%;
+  margin: -1px;
+  padding: 0;
+}
+
+.full-bleed img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+.portfolio-buttons{
+  display: flex;
+  justify-content: center;   /* centers the group */
+  gap: -50px;                 /* equal spacing between buttons */
+  align-items: center;
+  margin-top: -130px;
+}
+
+.portfolio-btn img{
+  display: block;
+  width: 420px;        /* was ~360px */
+  max-width: 32vw;     /* still responsive */
+  height: auto;
+}
+
+
+
+
+
+
+
+
+/* PDV page layout */
+
+/* Folio image layout */
+.image-container {
+  display: flex;
+  justify-content: center;   /* horizontal centering */
+  margin: 4rem 0;            /* vertical spacing between pages */
+}
+
+.image-container img {
+  max-width: 90%;            /* responsive scaling */
+  height: auto;
+}
+
+
+
+
+
+/*IAD page layout */
+/* Apply fixed background */
+body {
+    background-image: url('images/iad/bg.svg'); /* Path to your fixed background image */
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+}
+
+/* Container for the gallery */
+.gallery-container {
     position: relative;
-    padding-top: 30px;
+    z-index: 1; /* Ensure content is above the background */
+    padding: 15%;
+}
+
+/* Gallery styling - Adjusted for vertical stacking */
+.image-gallery {
+    display: flex;
+    flex-direction: column; /* Stack images vertically */
+    gap: 40px; /* Adjust the spacing between the images */
+    justify-content: center;
+}
+
+/* Each individual gallery item */
+.gallery-item {
+    width: 100%; /* Full width for vertical layout */
+    height: auto; /* Let height adjust based on image aspect ratio */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Image styling */
+.gallery-item img {
+    width: 100%; /* Full width of container */
+    height: auto; /* Adjust height according to aspect ratio */
+    object-fit: contain; /* Ensures the full image is visible without cropping */
+    cursor: pointer; /* Adds pointer cursor on hover */
+    transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 10px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
 }
 
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    display: block;
+}
+
+#modalCaption {
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 
-   /* Container to hold the greenbox image and left align */
-.fixed-left {
-    margin-top: 140px;
+/* Footer Styling */
+footer {
     display: flex;
-    justify-content: center; /* Center image horizontally */
-    align-items: center; /* Center image vertically */
-    width: 100%; /* Make the container take full width */
+    justify-content:space-around; /* Space between the left, center, and right sections */
+    align-items: center; /* Vertically center the content */
+    padding: 0; /* Padding around the footer */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    position: relative;
 }
 
-/* Ensure the image stays at a fixed size */
-.fixed-left img {
-    width: 100%; /* Maintain the aspect ratio of the image */
-    height: 100%; /* Allow the height to adjust proportionally */
-    max-width: 100%; /* Optional: limit the width to prevent image from being too large */
-}
-
-
-/* Container to hold the grouped image and center it */
-.grouped-image {
+/* Left and Right sections in the footer */
+.footer-left, .footer-right {
     display: flex;
-    justify-content: center; /* Center image horizontally */
-    align-items: center; /* Center image vertically */
-    width: 100%; /* Make the container take full width */
+    gap: 20px; /* Space between the icons */
+    align-items: center; /* Ensures the icons are aligned properly */
 }
 
-/* Ensure the image stays at a fixed size */
-.grouped-image img {
-  width: 100%; /* Maintain the aspect ratio of the image */
-    height: 100%; /* Allow the height to adjust proportionally */
-    max-width: 100%; /* Optional: limit the width to prevent image from being too large */
+/* Styling for the footer icons */
+.footer-icon-left, .footer-icon {
+  margin-top: 40px;  
+  width: 30px; /* Set a specific size for the icons */
+    height: 30px; /* Ensure the icons are square */
+    object-fit: contain; /* Makes sure the icons maintain their aspect ratio */
+    cursor: pointer; /* Makes the icon clickable */
 }
+
+/* Center: Logo styling */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ensure links don't have text decoration */
+footer a {
+    text-decoration: none; /* Removes the default underline */
+    display: inline-block; /* Makes the link block-level */
+}
+
+/* Optional: Add a hover effect to icons */
+.footer-icon-left:hover, .footer-icon:hover, .logo:hover{
+    opacity: 0.7; /* Slight opacity change on hover */
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
+
 
 
 
