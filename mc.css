@@ -1,0 +1,266 @@
+body {
+    background-image: url('images/bgmc.svg'); /* Path to your fixed background image */
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+}
+
+
+/* Positioning the logo container */
+.logo-container {
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block; /* Ensure it's a clickable block */
+    cursor: pointer; /* Makes it clickable */
+}
+
+/* Styling for the logo */
+.logo {
+    width: auto;
+    height: 100px; /* Adjust as needed */
+}
+
+/* Styling for the anchor link to remove default underline */
+a {
+    text-decoration: none; /* Remove default underline */
+}
+
+
+
+
+
+/* Basic reset */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #fff;
+}
+
+/* Page background similar to your reference */
+.page {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* Player card */
+.player {
+  width: min(420px, 92vw);
+  padding: 22px;
+  border-radius: 22px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+/* Cover */
+/*.cover-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}*/
+
+.cover-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  
+  padding: 22px;
+}
+
+.vinyl-stage {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+}
+
+.vinyl {
+  width: 95%;
+  max-width: 340px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 999px;
+  display: block;
+
+  animation: spin 2.6s linear infinite;
+  animation-play-state: paused; /* not spinning until audio plays */
+  will-change: transform;
+
+  /* optional: makes it feel more “real” */
+  filter: drop-shadow(0 18px 30px rgba(0,0,0,0.45));
+}
+
+.vinyl.is-spinning {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Title + like row */
+.meta-row {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.title {
+  font-size: 22px;
+  line-height: 1.15;
+  margin: 0;
+  font-weight: 700;
+}
+
+.artist {
+  margin: 6px 0 0;
+  font-size: 14px;
+  opacity: 0.78;
+}
+
+/* Buttons */
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.icon-btn:hover { background: rgba(255,255,255,0.10); }
+.icon-btn:active { transform: translateY(1px); }
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+  opacity: 0.92;
+}
+
+.icon-btn.small {
+  position: relative;
+  width: 46px;
+  height: 46px;
+}
+
+.mini-label {
+  position: absolute;
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.9;
+  transform: translateY(10px);
+}
+
+/* Like button (heart) */
+.like svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.7;
+}
+
+.like.is-liked svg {
+  fill: #fff;
+  stroke: #fff;
+}
+
+/* Progress */
+.progress {
+  margin-top: 18px;
+}
+
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  opacity: 0.78;
+  margin-bottom: 10px;
+}
+
+.seek {
+  width: 100%;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.22);
+  outline: none;
+}
+
+/* Range thumb */
+.seek::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.seek::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* Controls row */
+.controls {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Big play button */
+.play-btn {
+  width: 68px;
+  height: 68px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
+
+.play-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: #111;
+}
+
+.play-btn:active { transform: translateY(1px); }
+
+.track-count {
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.65;
+}
