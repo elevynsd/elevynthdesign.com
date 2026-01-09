@@ -44,7 +44,7 @@ const audio = document.getElementById("audio");
 
 const titleEl = document.getElementById("title");
 const artistEl = document.getElementById("artist");
-const trackCount = document.getElementById("trackCount");
+
 
 const playBtn = document.getElementById("playBtn");
 const playIcon = document.getElementById("playIcon");
@@ -58,7 +58,7 @@ const seek = document.getElementById("seek");
 const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 
-const likeBtn = document.getElementById("likeBtn");
+
 
 const vinyl = document.getElementById("vinyl");
 
@@ -66,8 +66,7 @@ const vinyl = document.getElementById("vinyl");
 let index = 0;
 let isSeeking = false;
 
-// Simple per-track “liked” state (optional)
-const liked = new Array(playlist.length).fill(false);
+
 
 // -------- Helpers --------
 function formatTime(seconds) {
@@ -92,12 +91,12 @@ function loadTrack(newIndex, autoplay = false) {
   titleEl.textContent = track.title;
   artistEl.textContent = track.artist;
  vinyl.src = track.vinylImage || "images/music/vinyl.png";
-  cover.alt = `${track.title} cover art`;
+
 
   audio.src = track.src;
   audio.load();
 
-  trackCount.textContent = `${index + 1} / ${playlist.length}`;
+ 
 
   // Like UI
   likeBtn.classList.toggle("is-liked", liked[index]);
@@ -114,7 +113,6 @@ function loadTrack(newIndex, autoplay = false) {
 
 // -------- Wire up events --------
 playBtn.addEventListener("click", () => {
-  if (!audio.src) return;
 
   if (audio.paused) {
     audio.play().catch(() => {});
@@ -180,12 +178,17 @@ audio.addEventListener("timeupdate", () => {
 // Auto-next at end
 audio.addEventListener("ended", () => loadTrack(index + 1, true));
 
-// Like toggle
-likeBtn.addEventListener("click", () => {
-  liked[index] = !liked[index];
-  likeBtn.classList.toggle("is-liked", liked[index]);
-  likeBtn.setAttribute("aria-pressed", liked[index] ? "true" : "false");
-});
 
-// -------- Start --------
-loadTrack(0, false);
+
+// -------- Start (robust init) --------
+function initPlayer() {
+  loadTrack(0, false); // sets audio.src immediately
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initPlayer);
+} else {
+  // DOM is already ready (common in some preview tools)
+  initPlayer();
+}
+

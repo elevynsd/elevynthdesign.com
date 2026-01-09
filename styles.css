@@ -45,7 +45,7 @@ h2 {
 
 h3 {
     font-family: 'TT Hoves', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     color: #ffffff;
     margin: 0;
 }
@@ -157,6 +157,7 @@ a {
     transform: translateX(-50%);
     z-index: 2;
     text-align: center;
+    
 }
 
 
@@ -197,10 +198,9 @@ a {
     font-size: 5vh;
   }
    .h3-container {
-    top: 87vh;                 /* move it slightly up */
-    white-space:unset;       /* allow wrapping on very small screens */
+    top: 90vh;                 /* move it slightly up */
+    white-space:normal;       /* allow wrapping on very small screens */
     width: 100%;
-    font-size: 4vh;
     font-weight: normal;
     font-style: normal;
   }
