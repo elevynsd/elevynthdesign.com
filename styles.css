@@ -50,6 +50,13 @@ h3 {
     margin: 0;
 }
 
+h4 {
+    font-family: 'TT Hoves', sans-serif;
+    font-size: 0.7rem;
+    color: #ffffff;
+    margin: 0;
+}
+
 
 
 
@@ -304,18 +311,20 @@ body {
 
 /* Gallery styling - Adjusted for vertical stacking */
 .image-gallery {
-    display: flex;
-    flex-direction: column; /* Stack images vertically */
-    gap: 40px; /* Adjust the spacing between the images */
-    justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* two per row */
+  gap: 40px; /* keep your spacing */
+  justify-items: center; /* optional: keeps items neatly aligned */
 }
+
 
 /* Each individual gallery item */
 .gallery-item {
-    width: 100%; /* Full width for vertical layout */
-    height: auto; /* Let height adjust based on image aspect ratio */
-    overflow: hidden;
-    position: relative;
+  width: 100%;      /* fills the grid column */
+  max-width: 520px; /* optional: stops them getting huge on wide screens */
+  height: auto;
+  overflow: hidden;
+  position: relative;
 }
 
 /* Image styling */
@@ -331,6 +340,17 @@ body {
     transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
+@media (max-width: 800px) {
+  .image-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gallery-section {
+  grid-column: 1 / -1; /* span full width of the grid */
+  text-align: center;
+  margin: 40px 0 20px;
+}
 
 
 /* Modal styles */
