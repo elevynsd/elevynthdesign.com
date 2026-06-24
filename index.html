@@ -1,115 +1,1053 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>elevynthdesign|HOME</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>elevynthdesign | HOME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Space+Mono&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Barlow', sans-serif; font-weight: 300; background: #C8960C; color: #fff; overflow-x: hidden; }
+
+    /* ─── PALETTE ────────────────────────────────────────────── */
+    :root {
+      --amber:      #C8960C;
+      --amber-lt:   #E8B830;
+      --olive-dk:   #2D3319;
+      --olive:      #4A5230;
+      --olive-md:   #6B7448;
+      --khaki:      #8B9060;
+      --terra:      #C1724F;
+      --terra-lt:   #D4896A;
+      --white:      #FFFFFF;
+      --off-white:  #F5F2EC;
+      --panel-bg:   #FFFFFF;
+    }
+
+    /* ─── FIXED VIDEO BACKGROUND ─────────────────────────────── */
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .video-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* ─── LOGO / NAV ─────────────────────────────────────────── */
+    .logo {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .logo-icon {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .logo-bar {
+      width: 4px;
+      background: var(--amber);
+      border-radius: 1px;
+    }
+    .logo-bar:nth-child(1) { height: 14px; }
+    .logo-bar:nth-child(2) { height: 14px; }
+    .logo-arrow {
+      width: 0;
+      height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid var(--amber);
+      margin-left: 2px;
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    /* Hero is now a transparent spacer — video is behind via .video-bg */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1;
+    }
+    /* Gradient overlay on top of the fixed video, scoped to hero height */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(30,18,0,0.15) 0%, rgba(30,18,0,0.05) 50%, rgba(30,18,0,0.55) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-text {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding-bottom: 6vh;
+      width: 100%;
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero-main {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--amber-lt);
+      line-height: 1;
+      text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+    }
+    .hero-sub {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--amber-lt);
+      margin-top: 0.5rem;
+    }
+    .hero-caption {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.75rem, 1.5vw, 1rem);
+      color: rgba(255,255,255,0.85);
+      margin-top: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── SCROLL HINT ─────────────────────────────────────────── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.5;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint span {
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .scroll-hint-line {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,0.6);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(5px); }
+    }
+
+    /* ─── WHITE PARALLAX PANEL ───────────────────────────────── */
+    /* Sits above the fixed video; slides up over it on scroll */
+    .panel {
+      position: relative;
+      background: var(--panel-bg);
+      color: #1a1200;
+      width: 75%;
+      max-width: 1100px;
+      margin: 0 auto;
+      z-index: 10;
+      transform: translateY(80px);
+      box-shadow: 0 -8px 60px rgba(0,0,0,0.25);
+    }
+
+    /* ─── PROFILE CARD ───────────────────────────────────────── */
+    .profile-card {
+      background: var(--olive-md);
+      color: #fff;
+      padding: 2rem 2.5rem;
+      display: inline-block;
+      min-width: 300px;
+      margin: 2.5rem 0 0 2.5rem;
+    }
+    .profile-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .profile-location {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .profile-location::before {
+      content: '◎';
+      font-size: 0.6rem;
+    }
+    .profile-role {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 2;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ─── MAP + SKILLS ROW ───────────────────────────────────── */
+    .map-skills-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 2rem 2.5rem;
+      gap: 3rem;
+      align-items: center;
+    }
+    .map-placeholder img {
+      width: 100%;
+      max-width: 380px;
+      opacity: 0.85;
+    }
+
+    /* Language rings */
+    .languages {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+    .lang {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .lang-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #666;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Skill bars */
+    .skills-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .skill-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .skill-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #444;
+      font-family: 'Space Mono', monospace;
+    }
+    .skill-bar-bg {
+      height: 4px;
+      background: #e8e4dc;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: var(--olive-dk);
+      border-radius: 2px;
+      transition: width 1.2s ease;
+    }
+
+    /* ─── DIVIDER ─────────────────────────────────────────────── */
+    .panel-divider {
+      height: 1px;
+      background: #e0dbd0;
+      margin: 0 2.5rem;
+    }
+
+    /* ─── THREE COL (Education / Volunteering / Certs) ──────── */
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+
+    .info-block {
+      padding: 2rem;
+      cursor: pointer;
+      position: relative;
+      transition: opacity 0.2s;
+    }
+    .info-block:hover { opacity: 0.85; }
+    .info-block:hover .info-block-expand { opacity: 1; }
+
+    .info-block--edu  { background: var(--terra); color: #fff; }
+    .info-block--vol  { background: var(--olive-dk); color: #fff; }
+    .info-block--cert { background: transparent; color: #1a1200; border-top: 1px solid #e0dbd0; }
+
+    .info-block-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .info-block--edu  .info-block-title { color: rgba(255,255,255,0.7); }
+    .info-block--vol  .info-block-title { color: rgba(255,255,255,0.7); }
+    .info-block--cert .info-block-title { color: #888; }
+
+    .info-entry { margin-bottom: 1.1rem; }
+    .info-entry-main {
+      font-size: 0.72rem;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+    .info-entry-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 2px;
+      opacity: 0.7;
+    }
+    .info-block-expand {
+      position: absolute;
+      bottom: 1.2rem;
+      right: 1.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.2s;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 1px;
+    }
+    .info-block--cert .info-block-expand { color: #666; }
+    .info-block--edu  .info-block-expand { color: rgba(255,255,255,0.6); }
+    .info-block--vol  .info-block-expand { color: rgba(255,255,255,0.6); }
+
+    /* ─── SOFTWARE / PLAY SECTION ────────────────────────────── */
+    .software-play {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 2rem 2.5rem 2.5rem;
+      gap: 2rem;
+    }
+    .software-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .sw-group-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 0.6rem;
+    }
+    .sw-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.3rem;
+      border-bottom: 1px solid #f0ece4;
+      padding-bottom: 0.25rem;
+    }
+    .sw-name  { font-size: 0.68rem; color: #333; letter-spacing: 0.04em; }
+    .sw-level { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: #999; }
+
+    /* Play logo */
+    .play-logo { display: flex; align-items: center; gap: 3px; }
+    .play-bar  { width: 10px; background: var(--terra); border-radius: 2px; }
+    .play-bar:nth-child(1) { height: 44px; }
+    .play-bar:nth-child(2) { height: 44px; }
+    .play-bar:nth-child(3) { height: 44px; }
+    .play-bar:nth-child(4) { height: 44px; }
+    .play-bar:nth-child(5) { height: 44px; }
+    .play-bar:nth-child(6) { height: 44px; }
+    .play-arrow-shape {
+      width: 0; height: 0;
+      border-top: 22px solid transparent;
+      border-bottom: 22px solid transparent;
+      border-left: 34px solid var(--terra);
+      margin-left: 3px;
+    }
+
+    /* ─── PORTFOLIOS SECTION ─────────────────────────────────── */
+    .portfolios-section {
+      background: rgba(200,150,12,0.04);
+      padding: 4rem 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .portfolios-wordmark {
+      text-align: center;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      color: #888;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+    }
+    .portfolios-wordmark .wm-bold { font-weight: 600; color: #444; }
+    .portfolios-wordmark .wm-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      margin: 0 1px;
+    }
+    .portfolios-wordmark .wm-bar {
+      display: inline-block;
+      width: 3px; height: 10px;
+      background: #888;
+      border-radius: 1px;
+      vertical-align: middle;
+    }
+    .portfolios-wordmark .wm-tri {
+      display: inline-block;
+      width: 0; height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid #888;
+      vertical-align: middle;
+      margin-left: 1px;
+    }
+
+    .folio-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      width: 75%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .folio-card {
+      display: block;
+      text-decoration: none;
+      padding: 2rem 1.75rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 180px;
+      cursor: pointer;
+      transition: filter 0.25s, transform 0.25s;
+    }
+    .folio-card:hover { filter: brightness(1.08); transform: translateY(-2px); }
+    .folio-card:hover .fc-arrow { opacity: 1; transform: translateX(0); }
+
+    .folio-card--pd    { background: var(--olive-dk); }
+    .folio-card--art   { background: var(--olive-md); }
+    .folio-card--music { background: var(--terra); }
+
+    .fc-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.6rem;
+      font-family: 'Space Mono', monospace;
+    }
+    .fc-title {
+      font-size: 0.92rem;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .fc-sub {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .fc-sub span { display: block; }
+    .fc-arrow {
+      position: absolute;
+      bottom: 1.25rem;
+      right: 1.5rem;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.5);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .fc-click-hint {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .fc-music-icon {
+      position: absolute;
+      right: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.4;
+    }
+    .fc-music-icon svg { width: 50px; height: 50px; }
+
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      width: 75%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      text-decoration: none;
+    }
+    .footer-link:hover { opacity: 1; }
+    .footer-logo { cursor: pointer; opacity: 0.6; transition: opacity 0.2s; }
+    .footer-logo:hover { opacity: 1; }
+
+    /* ─── LIGHTBOX ────────────────────────────────────────────── */
+    .lb-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,8,0,0.82);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .lb-overlay.open { display: flex; }
+    .lb-box {
+      background: var(--off-white);
+      color: #1a1200;
+      max-width: 560px;
+      width: 100%;
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+    }
+    .lb-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #888;
+      line-height: 1;
+    }
+    .lb-close:hover { color: #1a1200; }
+    .lb-category {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.5rem;
+      font-family: 'Space Mono', monospace;
+    }
+    .lb-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--olive-dk);
+      margin-bottom: 1.5rem;
+    }
+    .lb-entries { display: flex; flex-direction: column; gap: 1.2rem; }
+    .lb-entry-main {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: #333;
+      line-height: 1.6;
+    }
+    .lb-entry-sub {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      margin-top: 2px;
+    }
+    .lb-entry-date {
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+    .lb-divider { height: 1px; background: #e0dbd0; margin: 0.5rem 0; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .panel       { width: 92%; }
+      .folio-cards { width: 92%; }
+      .site-footer { width: 92%; }
+      .three-col       { grid-template-columns: 1fr; }
+      .map-skills-row  { grid-template-columns: 1fr; }
+      .software-play   { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .panel       { width: 96%; transform: translateY(-30px); }
+      .folio-cards { width: 96%; grid-template-columns: 1fr; }
+      .hero-main   { font-size: 3rem; }
+    }
+  </style>
 </head>
-
 <body>
-    <!-- Video Background -->
-    <div class="video-background">
-        <video autoplay loop muted>
-            <source src="videos/f.mp4" type="video/mp4">
-        </video>
+
+  <!-- ─── FIXED VIDEO BACKGROUND ─────────────────────────────── -->
+  <div class="video-bg">
+    <video autoplay muted loop playsinline poster="images/fpv2.svg">
+      <source src="videos/f.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <!-- LOGO / HOME LINK -->
+  <a href="index.html" class="logo" aria-label="Back to home">
+    <div class="logo-icon">
+      <div class="logo-bar"></div>
+      <div class="logo-bar"></div>
+      <div class="logo-arrow"></div>
     </div>
-
-    <header>
-    <a href="index.html">
-        <div class="logo-container">
-            <img src="images/Yellow logo.png" alt="Logo" class="logo">
-        </div>
-    </a>
-
-
-
-          <!-- Title Text -->
-        <div class="title-container">
-            <h1>PERFECTION IS ATTAINED</h1>
-            <!-- Smaller tagline (h2) -->
-        </div>
-
-        <div class="h2-container">
-           <h2>...by slow degrees.</h2>
-            <!-- Smaller tagline (h2) -->
-        </div>
-
-        <div class="h3-container">
-           <h3>design however, can always have improvements.</h3>
-            <!-- Smaller tagline (h2) -->
-        </div>
-    </header>
-
-        <!-- White Section Below the Video -->
-    <div class="white-section">
-
-        
-  <div class="content">
-
-    
-
-    <div class="full-bleed">
-      <img src="images/fpv2.svg" alt="Green Box">
-  
-    </div>
-
- <div class="full-bleed">
-        <img src="images/3.svg" alt="Map">
-    </div>
-
-   <div class="image-container">
-        <img src="images/resized header.svg" alt="Folio">
-    </div>
-
-    </div> <!-- END .content -->
-
-    <div class="wsite-spacer" style="height:50px;"></div>
-   
-   <div class="portfolio-buttons">
-  <a class="portfolio-btn" href="pdv.html" target="_blank">
-    <img src="images/pdv.svg" alt="Product design visualisation">
   </a>
 
-  <a class="portfolio-btn" href="iad.html" target="_blank">
-    <img src="images/iad.svg" alt="Independent art & design">
-  </a>
+  <!-- ─── HERO (transparent spacer over fixed video) ─────────── -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h1 class="hero-main">Perfection is attained</h1>
+      <p class="hero-sub">...by slow degrees.</p>
+      <p class="hero-caption">design however, can always have improvements.</p>
+    </div>
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+  </section>
 
-  <a class="portfolio-btn" href="mc.html" target="_blank">
-    <img src="images/mc2.svg" alt="Music composition">
-  </a>
-</div>
+  <!-- ─── WHITE PARALLAX PANEL ─────────────────────────────────
+       Slides up over the fixed video as the user scrolls.
+       The amber body background is visible either side of the panel. -->
+  <div class="panel" id="main-panel">
 
-<div class="wsite-spacer" style="height:-150px;"></div>
-
-
-
-<footer>
-    <!-- Left Side: Icon -->
-    <div class="footer-left">
-        <a href="https://vsco.co/elevyn-s/gallery">
-            <img src="images/vsco4.svg" alt="vsco" class="footer-icon-left">
-        </a>
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+      <p class="profile-name">Evelyn Stephen</p>
+      <p class="profile-location">Glasgow</p>
+      <div class="profile-role">
+        <span>Product Design Engineering Student</span><br>
+        <span>Artist</span><br>
+        <span>Music Composition &amp; Teaching</span>
+      </div>
     </div>
 
-    <!-- Center: Logo -->
-    <div class="logo-container">
-        <a href="index.html">
-            <img src="images/black logo.svg" alt="Logo" class="logo">
-        </a>
+    <!-- MAP + SKILLS -->
+    <div class="map-skills-row">
+      <div class="map-placeholder">
+        <div style="width:100%;">
+          <img src="images/map.svg" alt="World map showing origin" />
+          <div class="languages">
+            <div class="lang">
+              <!-- English: full ring (circumference of r=23 ≈ 144.5) -->
+              <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="27" cy="27" r="23" stroke="#e0dbd0" stroke-width="4"/>
+                <circle cx="27" cy="27" r="23" stroke="#2D3319" stroke-width="4"
+                  stroke-dasharray="144.5 0" stroke-linecap="round" transform="rotate(-90 27 27)"/>
+              </svg>
+              <span class="lang-label">English</span>
+            </div>
+            <div class="lang">
+              <!-- Malayalam: full ring -->
+              <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="27" cy="27" r="23" stroke="#e0dbd0" stroke-width="4"/>
+                <circle cx="27" cy="27" r="23" stroke="#2D3319" stroke-width="4"
+                  stroke-dasharray="144.5 0" stroke-linecap="round" transform="rotate(-90 27 27)"/>
+              </svg>
+              <span class="lang-label">Malayalam</span>
+            </div>
+            <div class="lang">
+              <!-- French: 1/5 = 28.9 of 144.5 -->
+              <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="27" cy="27" r="23" stroke="#e0dbd0" stroke-width="4"/>
+                <circle cx="27" cy="27" r="23" stroke="#2D3319" stroke-width="4"
+                  stroke-dasharray="28.9 115.6" stroke-linecap="round" transform="rotate(-90 27 27)"/>
+              </svg>
+              <span class="lang-label">French</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skills-col">
+        <div class="skill-row">
+          <span class="skill-label">Communication</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Innovative thinking</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Teamwork</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:70%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Leadership</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:65%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Organisation</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+        </div>
+      </div>
     </div>
 
-    <!-- Right Side: Icon -->
-    <div class="footer-right">
-        <a href="https://www.linkedin.com/in/evelyn-varghese-stephen-6a434929a">
-            <img src="images/li.svg" alt="linkedin" class="footer-icon">
-        </a>
+    <div class="panel-divider"></div>
+
+    <!-- EDUCATION / VOLUNTEERING / CERTIFICATIONS -->
+    <div class="three-col">
+
+      <div class="info-block info-block--edu" onclick="openLightbox('edu')" role="button" tabindex="0" aria-label="Education — click for more">
+        <p class="info-block-title">Education</p>
+        <div class="info-entry">
+          <p class="info-entry-main">Product Design Engineering MEng — Ongoing</p>
+          <p class="info-entry-sub">University of Strathclyde · Scotland</p>
+        </div>
+        <div class="info-entry">
+          <p class="info-entry-main">SQA Highers — AAAAA</p>
+          <p class="info-entry-sub">Woodfarm High School · Scotland</p>
+        </div>
+        <span class="info-block-expand">More ↗</span>
+      </div>
+
+      <div class="info-block info-block--vol" onclick="openLightbox('vol')" role="button" tabindex="0" aria-label="Volunteering — click for more">
+        <p class="info-block-title">Volunteering</p>
+        <div class="info-entry">
+          <p class="info-entry-main">Welcome Team</p>
+          <p class="info-entry-sub">Strath Union</p>
+        </div>
+        <div class="info-entry">
+          <p class="info-entry-main">Engineering the Future for Girls — Mentor</p>
+          <p class="info-entry-sub">University of Strathclyde</p>
+        </div>
+        <div class="info-entry">
+          <p class="info-entry-main">Scottish Space School — DMEM Mentor</p>
+        </div>
+        <div class="info-entry">
+          <p class="info-entry-main">DMEM Educational Outreach Programme — Mentor</p>
+          <p class="info-entry-sub">Woodfarm High School</p>
+        </div>
+        <span class="info-block-expand">More ↗</span>
+      </div>
+
+      <div class="info-block info-block--cert" onclick="openLightbox('cert')" role="button" tabindex="0" aria-label="Certifications — click for more">
+        <p class="info-block-title">Certifications &amp; Awards</p>
+        <div class="info-entry">
+          <p class="info-entry-main">Engineering Dean's List 24–25</p>
+        </div>
+        <div class="info-entry">
+          <p class="info-entry-main">SOLIDWORKS CSWA — Simulation</p>
+        </div>
+        <div class="info-entry">
+          <p class="info-entry-main">Certified SOLIDWORKS Associate</p>
+        </div>
+        <div class="info-entry">
+          <p class="info-entry-main">Grade 8 Piano — Merit</p>
+        </div>
+        <span class="info-block-expand">More ↗</span>
+      </div>
     </div>
-</footer>
 
+    <div class="panel-divider"></div>
 
+    <!-- SOFTWARE + PLAY LOGO -->
+    <div class="software-play">
+      <div class="software-grid">
+        <div>
+          <p class="sw-group-label">Audio</p>
+          <div class="sw-row"><span class="sw-name">Waveform</span><span class="sw-level">Proficient</span></div>
+          <div class="sw-row"><span class="sw-name">Spitfire Audio Labs</span><span class="sw-level">Proficient</span></div>
+        </div>
+        <div>
+          <p class="sw-group-label">Visual</p>
+          <div class="sw-row"><span class="sw-name">Clip Studio Paint</span><span class="sw-level">Advanced</span></div>
+          <div class="sw-row"><span class="sw-name">Photoshop</span><span class="sw-level">Proficient</span></div>
+          <div class="sw-row"><span class="sw-name">Illustrator</span><span class="sw-level">Proficient</span></div>
+          <div class="sw-row"><span class="sw-name">Blender</span><span class="sw-level">Basic</span></div>
+        </div>
+      </div>
+      <div class="play-logo" aria-hidden="true">
+        <div class="play-bar"></div>
+        <div class="play-bar"></div>
+        <div class="play-bar"></div>
+        <div class="play-bar"></div>
+        <div class="play-bar"></div>
+        <div class="play-bar"></div>
+        <div class="play-arrow-shape"></div>
+      </div>
+    </div>
 
-   
+  </div><!-- /panel -->
+
+  <!-- ─── PORTFOLIOS ────────────────────────────────────────── -->
+  <div class="portfolios-section">
+    <div class="portfolios-wordmark">
+      portf
+      <span class="wm-logo">
+        <span class="wm-bar"></span>
+        <span class="wm-tri"></span>
+      </span>
+      s
+    </div>
+
+    <div class="folio-cards">
+
+      <a href="pdv.html" class="folio-card folio-card--pd">
+        <p class="fc-label">Product design</p>
+        <p class="fc-title">Product design<br>visualisation</p>
+        <div class="fc-sub">
+          <span>Design emotion &amp; experience</span>
+          <span>Speaker Exhibition Sheets</span>
+          <span>Individual Integrating Project</span>
+          <span>Drip Coffee Machine</span>
+        </div>
+        <span class="fc-click-hint">view folio</span>
+        <span class="fc-arrow">→</span>
+      </a>
+
+      <a href="iad.html" class="folio-card folio-card--art">
+        <p class="fc-label">Independent art &amp; design</p>
+        <p class="fc-title">Independent art<br>&amp; design</p>
+        <div class="fc-sub">
+          <span>Digital work</span>
+          <span>Traditional works</span>
+          <span>Kyoto Creators 2024</span>
+        </div>
+        <span class="fc-click-hint">view folio</span>
+        <span class="fc-arrow">→</span>
+      </a>
+
+      <a href="mc.html" class="folio-card folio-card--music">
+        <p class="fc-label">Music composition</p>
+        <p class="fc-title">Music<br>composition</p>
+        <div class="fc-sub">
+          <span>Made using:</span>
+          <span>Waveform · Spitfire Audio Labs</span>
+        </div>
+        <span class="fc-click-hint">view folio</span>
+        <span class="fc-arrow">→</span>
+        <div class="fc-music-icon">
+          <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M38 10L20 14v20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="15" cy="34" r="5" stroke="white" stroke-width="2"/>
+            <circle cx="33" cy="30" r="5" stroke="white" stroke-width="2"/>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="site-footer">
+      <!-- VSCO -->
+      <a href="https://vsco.co/elevyn-s/gallery" class="footer-link" target="_blank" aria-label="VSCO">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="18" cy="18" r="16" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+          <circle cx="18" cy="18" r="10" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+          <circle cx="18" cy="18" r="3"  fill="rgba(255,255,255,0.5)"/>
+          <circle cx="18" cy="5"  r="1.2" fill="rgba(255,255,255,0.5)"/>
+          <circle cx="18" cy="31" r="1.2" fill="rgba(255,255,255,0.5)"/>
+          <circle cx="5"  cy="18" r="1.2" fill="rgba(255,255,255,0.5)"/>
+          <circle cx="31" cy="18" r="1.2" fill="rgba(255,255,255,0.5)"/>
+        </svg>
+      </a>
+
+      <!-- Home pause/play logo -->
+      <a href="index.html" class="footer-logo" aria-label="Home">
+        <div style="display:flex;align-items:center;gap:2px;">
+          <div style="width:5px;height:16px;background:#fff;border-radius:1px;opacity:0.7;"></div>
+          <div style="width:5px;height:16px;background:#fff;border-radius:1px;opacity:0.7;"></div>
+          <div style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid rgba(255,255,255,0.7);margin-left:2px;"></div>
+        </div>
+      </a>
+
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/evelyn-varghese-stephen-6a434929a" class="footer-link" target="_blank" aria-label="LinkedIn" style="background:rgba(255,255,255,0.12);border-radius:6px;width:36px;height:36px;">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="20" height="20" rx="3" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+          <rect x="4.5" y="8.5" width="2.5" height="8" fill="rgba(255,255,255,0.85)"/>
+          <circle cx="5.75" cy="5.75" r="1.5" fill="rgba(255,255,255,0.85)"/>
+          <path d="M10 8.5v8M10 11.5a3 3 0 016 0v5" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── LIGHTBOXES ─────────────────────────────────────────── -->
+
+  <div class="lb-overlay" id="lb-edu" onclick="closeLightbox(event,'lb-edu')">
+    <div class="lb-box">
+      <button class="lb-close" onclick="document.getElementById('lb-edu').classList.remove('open')">&times;</button>
+      <p class="lb-category">Education</p>
+      <h2 class="lb-title">Academic background</h2>
+      <div class="lb-entries">
+        <div class="lb-entry">
+          <p class="lb-entry-main">Product Design Engineering MEng — <strong>Ongoing</strong></p>
+          <p class="lb-entry-sub">University of Strathclyde · Scotland</p>
+          <p class="lb-entry-date">2023 – 2028</p>
+        </div>
+        <div class="lb-divider"></div>
+        <div class="lb-entry">
+          <p class="lb-entry-main">SQA Highers — <strong>AAAAA</strong></p>
+          <p class="lb-entry-sub">Woodfarm High School · Scotland</p>
+          <p class="lb-entry-date">2018 – 2023</p>
+          <p style="font-size:0.7rem;color:#999;margin-top:4px;">Mathematics · Physics · Graphic Communication · Art &amp; Design · English</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lb-overlay" id="lb-vol" onclick="closeLightbox(event,'lb-vol')">
+    <div class="lb-box">
+      <button class="lb-close" onclick="document.getElementById('lb-vol').classList.remove('open')">&times;</button>
+      <p class="lb-category">Volunteering</p>
+      <h2 class="lb-title">Community &amp; Outreach</h2>
+      <div class="lb-entries">
+        <div class="lb-entry">
+          <p class="lb-entry-main">Welcome Team</p>
+          <p class="lb-entry-sub">Strath Union</p>
+          <p class="lb-entry-date">September 2025 – 2026</p>
+        </div>
+        <div class="lb-divider"></div>
+        <div class="lb-entry">
+          <p class="lb-entry-main">Engineering the Future for Girls — <strong>Mentor</strong></p>
+          <p class="lb-entry-sub">University of Strathclyde</p>
+          <p class="lb-entry-date">June 2025 – 2026</p>
+        </div>
+        <div class="lb-divider"></div>
+        <div class="lb-entry">
+          <p class="lb-entry-main">Scottish Space School — <strong>DMEM Mentor</strong></p>
+          <p class="lb-entry-date">June 2026</p>
+        </div>
+        <div class="lb-divider"></div>
+        <div class="lb-entry">
+          <p class="lb-entry-main">DMEM Educational Outreach Programme — <strong>Mentor</strong></p>
+          <p class="lb-entry-sub">Woodfarm High School</p>
+          <p class="lb-entry-date">March 2025</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lb-overlay" id="lb-cert" onclick="closeLightbox(event,'lb-cert')">
+    <div class="lb-box">
+      <button class="lb-close" onclick="document.getElementById('lb-cert').classList.remove('open')">&times;</button>
+      <p class="lb-category">Certifications &amp; Awards</p>
+      <h2 class="lb-title">Achievements</h2>
+      <div class="lb-entries">
+        <div class="lb-entry">
+          <p class="lb-entry-main">Engineering Dean's List 24–25</p>
+          <p class="lb-entry-date">Issued November 2025</p>
+        </div>
+        <div class="lb-divider"></div>
+        <div class="lb-entry">
+          <p class="lb-entry-main">SOLIDWORKS CSWA — Simulation</p>
+          <p class="lb-entry-date">Issued November 2025</p>
+        </div>
+        <div class="lb-divider"></div>
+        <div class="lb-entry">
+          <p class="lb-entry-main">Certified SOLIDWORKS Associate</p>
+          <p class="lb-entry-date">Issued January 2025</p>
+        </div>
+        <div class="lb-divider"></div>
+        <div class="lb-entry">
+          <p class="lb-entry-main">Grade 8 Piano — <strong>Merit</strong></p>
+          <p class="lb-entry-date">Issued December 2022</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openLightbox(key) {
+      const ids = { edu: 'lb-edu', vol: 'lb-vol', cert: 'lb-cert' };
+      const el = document.getElementById(ids[key]);
+      if (el) { el.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeLightbox(e, id) {
+      if (e.target === document.getElementById(id)) {
+        document.getElementById(id).classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+    document.querySelectorAll('.lb-close').forEach(btn => {
+      btn.addEventListener('click', () => { document.body.style.overflow = ''; });
+    });
+    document.querySelectorAll('[role=button]').forEach(el => {
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') el.click(); });
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.lb-overlay.open').forEach(el => el.classList.remove('open'));
+        document.body.style.overflow = '';
+      }
+    });
+    // Animate skill bars on scroll into view
+    const bars   = document.querySelectorAll('.skill-bar-fill');
+    const widths = Array.from(bars).map(b => b.style.width);
+    bars.forEach(b => b.style.width = '0');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          bars.forEach((b, i) => b.style.width = widths[i]);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    const skillsSection = document.querySelector('.skills-col');
+    if (skillsSection) observer.observe(skillsSection);
+  </script>
 
 </body>
 </html>
