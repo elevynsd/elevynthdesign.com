@@ -1,134 +1,682 @@
- 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>elevynthdesign|PRODUCT DESIGN</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>elevynthdesign | PRODUCT DESIGN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Space+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      background-color: #07031b;
+      background-image: url('images/iad/bg.svg');
+      background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
+      color: #e8e4dc;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 2, 12, 0.93);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .logo, .landing, .carousel-view { position: relative; z-index: 1; }
+
+    :root {
+      --amber:    #C8960C;
+      --amber-lt: #E8B830;
+      --terra:    #C1724F;
+      --olive-dk: #2D3319;
+      --dim:      rgba(232,228,220,0.4);
+      --dimmer:   rgba(232,228,220,0.15);
+    }
+
+    /* ── LOGO ── */
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .logo:hover { opacity: 1; }
+    .logo-bar {
+      width: 4px;
+      height: 14px;
+      background: var(--amber);
+      border-radius: 1px;
+    }
+    .logo-tri {
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid var(--amber);
+      margin-left: 2px;
+    }
+
+    /* ══════════════════════════════════════
+       LANDING VIEW
+    ══════════════════════════════════════ */
+    .landing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .landing.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-16px);
+      position: absolute;
+      width: 100%;
+    }
+
+    .landing-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 0.6rem;
+      text-align: center;
+    }
+    .landing-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #e8e4dc;
+      text-align: center;
+      margin-bottom: 3.5rem;
+      line-height: 1;
+    }
+    .landing-title span { color: var(--amber-lt); }
+
+    /* Project cards */
+    .project-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .project-card {
+      background: rgba(14,12,22,0.75);
+      border: 0.5px solid rgba(232,228,220,0.1);
+      backdrop-filter: blur(6px);
+      padding: 2.5rem 2.5rem 2rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+    }
+    .project-card:hover { background: rgba(24,20,36,0.85); }
+    .project-card:hover .pc-arrow { opacity: 1; transform: translate(0,0); }
+    .project-card:hover .pc-slides-label { color: var(--amber-lt); }
+
+    .pc-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      color: rgba(232,228,220,0.25);
+      margin-bottom: 1.5rem;
+    }
+    .pc-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .pc-brief {
+      font-size: 0.75rem;
+      color: rgba(232,228,220,0.45);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      flex: 1;
+      margin-bottom: 1.5rem;
+    }
+    .pc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+    }
+    .pc-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 0.5px solid rgba(232,228,220,0.18);
+      padding: 3px 9px;
+      border-radius: 10px;
+      color: rgba(232,228,220,0.4);
+    }
+    .pc-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pc-slides-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(232,228,220,0.25);
+      transition: color 0.2s;
+    }
+    .pc-arrow {
+      font-size: 1.2rem;
+      color: var(--amber-lt);
+      opacity: 0;
+      transform: translate(-8px, 4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    /* accent strip at top of card */
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: transparent;
+      transition: background 0.25s;
+    }
+    .project-card:hover::before { background: var(--amber); }
+    .project-card--iip:hover::before { background: var(--terra); }
+
+    /* ══════════════════════════════════════
+       CAROUSEL VIEW
+    ══════════════════════════════════════ */
+    .carousel-view {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .carousel-view.active { display: flex; }
+
+    /* Top bar */
+    .carousel-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2.5rem;
+      border-bottom: 0.5px solid rgba(232,228,220,0.08);
+      position: sticky;
+      top: 0;
+      background: rgba(4,2,12,0.88);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+    .cb-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .cb-back {
+      background: none;
+      border: 0.5px solid rgba(232,228,220,0.2);
+      color: rgba(232,228,220,0.6);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .cb-back:hover { border-color: #e8e4dc; color: #e8e4dc; }
+    .cb-project-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .cb-counter {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+    }
+    .cb-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cb-btn {
+      background: none;
+      border: 0.5px solid rgba(232,228,220,0.2);
+      color: rgba(232,228,220,0.6);
+      width: 36px;
+      height: 36px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .cb-btn:hover:not(:disabled) { border-color: #e8e4dc; color: #e8e4dc; }
+    .cb-btn:disabled { opacity: 0.2; cursor: default; }
+
+    /* Slide area */
+    .carousel-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .slide {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+    .slide.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-12px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .slide.dir-left { animation: fadeInLeft 0.2s ease; }
+
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Slide caption */
+    .slide-caption {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sc-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(232,228,220,0.25);
+    }
+    .sc-progress {
+      display: flex;
+      gap: 4px;
+    }
+    .sc-dot {
+      width: 18px;
+      height: 2px;
+      background: rgba(232,228,220,0.15);
+      border-radius: 1px;
+      transition: background 0.2s;
+    }
+    .sc-dot.active { background: var(--amber-lt); }
+
+    /* Bottom info strip */
+    .carousel-info {
+      padding: 1.5rem 2.5rem;
+      border-top: 0.5px solid rgba(232,228,220,0.08);
+      background: rgba(4,2,12,0.6);
+      display: flex;
+      align-items: flex-start;
+      gap: 3rem;
+    }
+    .ci-block {}
+    .ci-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(232,228,220,0.25);
+      margin-bottom: 0.3rem;
+      font-family: 'Space Mono', monospace;
+    }
+    .ci-value {
+      font-size: 0.8rem;
+      color: rgba(232,228,220,0.7);
+      line-height: 1.5;
+    }
+
+    /* Keyboard hint */
+    .key-hint {
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: rgba(232,228,220,0.18);
+      text-align: center;
+      padding: 0 0 1rem;
+    }
+
+    /* Footer home link */
+    .page-footer {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+      border-top: 0.5px solid rgba(232,228,220,0.06);
+    }
+    .footer-home {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      text-decoration: none;
+      opacity: 0.3;
+      transition: opacity 0.2s;
+    }
+    .footer-home:hover { opacity: 0.7; }
+    .footer-bar {
+      width: 4px; height: 14px;
+      background: #e8e4dc;
+      border-radius: 1px;
+    }
+    .footer-tri {
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid #e8e4dc;
+      margin-left: 2px;
+    }
+
+    @media (max-width: 640px) {
+      .project-cards { grid-template-columns: 1fr; }
+      .carousel-stage { padding: 1.5rem 1rem; }
+      .carousel-bar { padding: 1rem 1rem; }
+      .carousel-info { flex-wrap: wrap; gap: 1.5rem; }
+    }
+  </style>
 </head>
-
 <body>
- <header>
-    <a href="index.html">
-        <div class="logo-container">
-            <img src="images/white logo.svg" alt="Logo" class="logo">
+
+  <!-- Fixed logo -->
+  <a href="index.html" class="logo" aria-label="Home">
+    <div class="logo-bar"></div>
+    <div class="logo-bar"></div>
+    <div class="logo-tri"></div>
+  </a>
+
+  <!-- ══ LANDING ══════════════════════════════════════════════════ -->
+  <div class="landing" id="landing">
+    <h1 class="landing-title">Product design <span>visualisation</span></h1>
+
+    <div class="project-cards">
+
+      <div class="project-card" onclick="openProject('dee')" role="button" tabindex="0" aria-label="Open DEE project">
+        <p class="pc-num">01</p>
+        <h2 class="pc-title">Design emotion<br>&amp; experience</h2>
+        <p class="pc-brief">Design a speaker based on a chosen emotion and create six exhibition sheets to showcase the concept.</p>
+        <div class="pc-tags">
+          <span class="pc-tag">Surface modelling</span>
+          <span class="pc-tag">Exhibition design</span>
+          <span class="pc-tag">Speaker</span>
         </div>
-    </a>
-</header>
-
-
-    <div class="wsite-spacer" style="height:50px;"></div>
-
- <div class="image-container"> 
-      <img src="images/pdv/1.svg" alt="Folio Contents">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/2.svg" alt="DEE1">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/3.svg" alt="DEE2">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/4.svg" alt="DEE3">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/5.svg" alt="DEE4">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/6.svg" alt="DEE5">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/7.svg" alt="DEE6">
-    </div>
-
-
-<div class="wsite-spacer" style="height: 500px;"></div>
-
-
-     <div class="image-container"> 
-      <img src="images/pdv/8.svg" alt="IIP1">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/9.svg" alt="IIP2">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/10.svg" alt="IIP3">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/11.svg" alt="IIP4">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/12.svg" alt="IIP5">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/13.svg" alt="IIP6">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/14.svg" alt="IIP7">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/15.svg" alt="IIP8">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/16.svg" alt="IIP9">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/17.svg" alt="IIP10">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/18.svg" alt="IIP11">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/19.svg" alt="IIP12">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/20.svg" alt="IIP12">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/21.svg" alt="IIP13">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/22.svg" alt="IIP14">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/23.svg" alt="IIP15">
-    </div>
-
-     <div class="image-container"> 
-      <img src="images/pdv/24.svg" alt="IIP16">
-    </div>
-
- <div class="wsite-spacer" style="height:50px;"></div>
-
-<footer>
-     <a href="index.html">
-        <div class="logo-container">
-            <img src="images/white logo.svg" alt="Logo" class="logo">
+        <div class="pc-bottom">
+          <span class="pc-slides-label">7 slides</span>
+          <span class="pc-arrow">→</span>
         </div>
-    </a>
-</footer>
+      </div>
 
-    </body>
+      <div class="project-card project-card--iip" onclick="openProject('iip')" role="button" tabindex="0" aria-label="Open IIP project">
+        <p class="pc-num">02</p>
+        <h2 class="pc-title">Individual integrating<br>project</h2>
+        <p class="pc-brief">Create a portfolio presenting an original drip coffee machine design — from sketches and 3D models to client-ready visualisation.</p>
+        <div class="pc-tags">
+          <span class="pc-tag">Product design</span>
+          <span class="pc-tag">3D modelling</span>
+          <span class="pc-tag">Coffee machine</span>
+        </div>
+        <div class="pc-bottom">
+          <span class="pc-slides-label">17 slides</span>
+          <span class="pc-arrow">→</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ CAROUSEL: DEE ═══════════════════════════════════════════ -->
+  <div class="carousel-view" id="carousel-dee">
+    <div class="carousel-bar">
+      <div class="cb-left">
+        <button class="cb-back" onclick="closeDee()">← All projects</button>
+        <span class="cb-project-name">Design emotion &amp; experience</span>
+      </div>
+      <span class="cb-counter" id="dee-counter">1 / 7</span>
+      <div class="cb-nav">
+        <button class="cb-btn" id="dee-prev" onclick="moveDee(-1)" disabled aria-label="Previous slide">←</button>
+        <button class="cb-btn" id="dee-next" onclick="moveDee(1)" aria-label="Next slide">→</button>
+      </div>
+    </div>
+
+    <div class="carousel-stage">
+      <div class="slide-wrapper">
+        <div class="slide active" data-index="0"><img src="images/pdv/1.svg" alt="DEE — Portfolio contents" loading="lazy" /></div>
+        <div class="slide" data-index="1"><img src="images/pdv/2.svg" alt="DEE — Slide 2" loading="lazy" /></div>
+        <div class="slide" data-index="2"><img src="images/pdv/3.svg" alt="DEE — Slide 3" loading="lazy" /></div>
+        <div class="slide" data-index="3"><img src="images/pdv/4.svg" alt="DEE — Slide 4" loading="lazy" /></div>
+        <div class="slide" data-index="4"><img src="images/pdv/5.svg" alt="DEE — Slide 5" loading="lazy" /></div>
+        <div class="slide" data-index="5"><img src="images/pdv/6.svg" alt="DEE — Slide 6" loading="lazy" /></div>
+        <div class="slide" data-index="6"><img src="images/pdv/7.svg" alt="DEE — Slide 7" loading="lazy" /></div>
+
+        <div class="slide-caption">
+          <span class="sc-label" id="dee-slide-label">Contents</span>
+          <div class="sc-progress" id="dee-dots"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-info">
+      <div class="ci-block">
+        <p class="ci-label">Project</p>
+        <p class="ci-value">Design Emotion &amp; Experience<br>Speaker Exhibition Sheets</p>
+      </div>
+      <div class="ci-block">
+        <p class="ci-label">Brief</p>
+        <p class="ci-value">Design a speaker based on a chosen emotion,<br>create six exhibition sheets to showcase the design.</p>
+      </div>
+      <div class="ci-block">
+        <p class="ci-label">Pages</p>
+        <p class="ci-value">Surface model renderings · Social/spatial contexts<br>Emotional/aesthetic features · Commercial framework<br>Technical description · Design process</p>
+      </div>
+    </div>
+    <p class="key-hint">Use ← → arrow keys to navigate</p>
+
+    <div class="page-footer">
+      <a href="index.html" class="footer-home" aria-label="Home">
+        <div class="footer-bar"></div>
+        <div class="footer-bar"></div>
+        <div class="footer-tri"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ CAROUSEL: IIP ═══════════════════════════════════════════ -->
+  <div class="carousel-view" id="carousel-iip">
+    <div class="carousel-bar">
+      <div class="cb-left">
+        <button class="cb-back" onclick="closeIip()">← All projects</button>
+        <span class="cb-project-name">Individual integrating project</span>
+      </div>
+      <span class="cb-counter" id="iip-counter">1 / 17</span>
+      <div class="cb-nav">
+        <button class="cb-btn" id="iip-prev" onclick="moveIip(-1)" disabled aria-label="Previous slide">←</button>
+        <button class="cb-btn" id="iip-next" onclick="moveIip(1)" aria-label="Next slide">→</button>
+      </div>
+    </div>
+
+    <div class="carousel-stage">
+      <div class="slide-wrapper">
+        <div class="slide active" data-index="0"><img src="images/pdv/8.svg"  alt="IIP — Slide 1"  loading="lazy" /></div>
+        <div class="slide" data-index="1"><img src="images/pdv/9.svg"  alt="IIP — Slide 2"  loading="lazy" /></div>
+        <div class="slide" data-index="2"><img src="images/pdv/10.svg" alt="IIP — Slide 3"  loading="lazy" /></div>
+        <div class="slide" data-index="3"><img src="images/pdv/11.svg" alt="IIP — Slide 4"  loading="lazy" /></div>
+        <div class="slide" data-index="4"><img src="images/pdv/12.svg" alt="IIP — Slide 5"  loading="lazy" /></div>
+        <div class="slide" data-index="5"><img src="images/pdv/13.svg" alt="IIP — Slide 6"  loading="lazy" /></div>
+        <div class="slide" data-index="6"><img src="images/pdv/14.svg" alt="IIP — Slide 7"  loading="lazy" /></div>
+        <div class="slide" data-index="7"><img src="images/pdv/15.svg" alt="IIP — Slide 8"  loading="lazy" /></div>
+        <div class="slide" data-index="8"><img src="images/pdv/16.svg" alt="IIP — Slide 9"  loading="lazy" /></div>
+        <div class="slide" data-index="9"><img src="images/pdv/17.svg" alt="IIP — Slide 10" loading="lazy" /></div>
+        <div class="slide" data-index="10"><img src="images/pdv/18.svg" alt="IIP — Slide 11" loading="lazy" /></div>
+        <div class="slide" data-index="11"><img src="images/pdv/19.svg" alt="IIP — Slide 12" loading="lazy" /></div>
+        <div class="slide" data-index="12"><img src="images/pdv/20.svg" alt="IIP — Slide 13" loading="lazy" /></div>
+        <div class="slide" data-index="13"><img src="images/pdv/21.svg" alt="IIP — Slide 14" loading="lazy" /></div>
+        <div class="slide" data-index="14"><img src="images/pdv/22.svg" alt="IIP — Slide 15" loading="lazy" /></div>
+        <div class="slide" data-index="15"><img src="images/pdv/23.svg" alt="IIP — Slide 16" loading="lazy" /></div>
+        <div class="slide" data-index="16"><img src="images/pdv/24.svg" alt="IIP — Slide 17" loading="lazy" /></div>
+
+        <div class="slide-caption">
+          <span class="sc-label" id="iip-slide-label">Slide 1</span>
+          <div class="sc-progress" id="iip-dots"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-info">
+      <div class="ci-block">
+        <p class="ci-label">Project</p>
+        <p class="ci-value">Individual Integrating Project<br>Drip Coffee Machine</p>
+      </div>
+      <div class="ci-block">
+        <p class="ci-label">Brief</p>
+        <p class="ci-value">Create a portfolio presenting an original coffee machine design.<br>Visual-first — sketches, 3D models and client-ready renders.</p>
+      </div>
+      <div class="ci-block">
+        <p class="ci-label">Note</p>
+        <p class="ci-value">Body diagrams, calculations and product costing sections omitted.<br>Design concepts and renders included in full.</p>
+      </div>
+    </div>
+    <p class="key-hint">Use ← → arrow keys to navigate</p>
+
+    <div class="page-footer">
+      <a href="index.html" class="footer-home" aria-label="Home">
+        <div class="footer-bar"></div>
+        <div class="footer-bar"></div>
+        <div class="footer-tri"></div>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    /* ── Carousel state ── */
+    const state = {
+      dee: { current: 0, total: 7,  labels: ['Contents','Surface model renderings','Social/spatial contexts of experience','Emotional/aesthetic features','Commercial framework','Technical description','Design process'] },
+      iip: { current: 0, total: 17, labels: Array.from({length:17}, (_,i) => `Slide ${i+1}`) }
+    };
+
+    /* ── Build dots ── */
+    function buildDots(id) {
+      const s = state[id];
+      const el = document.getElementById(id + '-dots');
+      el.innerHTML = '';
+      // max 17 dots — show all; they're small dashes
+      for (let i = 0; i < s.total; i++) {
+        const d = document.createElement('div');
+        d.className = 'sc-dot' + (i === s.current ? ' active' : '');
+        el.appendChild(d);
+      }
+    }
+
+    /* ── Update carousel UI ── */
+    function updateCarousel(id, dir) {
+      const s = state[id];
+      const slides = document.querySelectorAll(`#carousel-${id} .slide`);
+      slides.forEach(sl => { sl.classList.remove('active','dir-left'); });
+      const active = slides[s.current];
+      active.classList.add('active');
+      if (dir < 0) active.classList.add('dir-left');
+
+      document.getElementById(id + '-counter').textContent = `${s.current + 1} / ${s.total}`;
+      document.getElementById(id + '-slide-label').textContent = s.labels[s.current];
+      document.getElementById(id + '-prev').disabled = s.current === 0;
+      document.getElementById(id + '-next').disabled = s.current === s.total - 1;
+      buildDots(id);
+    }
+
+    function moveDee(dir) {
+      const s = state.dee;
+      s.current = Math.max(0, Math.min(s.total - 1, s.current + dir));
+      updateCarousel('dee', dir);
+    }
+    function moveIip(dir) {
+      const s = state.iip;
+      s.current = Math.max(0, Math.min(s.total - 1, s.current + dir));
+      updateCarousel('iip', dir);
+    }
+
+    /* ── Open / close ── */
+    function openProject(id) {
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('carousel-' + id).classList.add('active');
+      state[id].current = 0;
+      updateCarousel(id, 1);
+      window.scrollTo(0, 0);
+    }
+    function closeDee() {
+      document.getElementById('carousel-dee').classList.remove('active');
+      document.getElementById('landing').classList.remove('hidden');
+    }
+    function closeIip() {
+      document.getElementById('carousel-iip').classList.remove('active');
+      document.getElementById('landing').classList.remove('hidden');
+    }
+
+    /* ── Keyboard navigation ── */
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('carousel-dee').classList.contains('active')) {
+        if (e.key === 'ArrowRight') moveDee(1);
+        if (e.key === 'ArrowLeft')  moveDee(-1);
+      }
+      if (document.getElementById('carousel-iip').classList.contains('active')) {
+        if (e.key === 'ArrowRight') moveIip(1);
+        if (e.key === 'ArrowLeft')  moveIip(-1);
+      }
+    });
+
+    /* ── Card keyboard a11y ── */
+    document.querySelectorAll('[role=button]').forEach(el => {
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') el.click();
+      });
+    });
+
+    /* ── Init dots ── */
+    buildDots('dee');
+    buildDots('iip');
+  </script>
+</body>
 </html>
