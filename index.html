@@ -241,6 +241,7 @@
       flex-direction: column;
       align-items: center;
       gap: 0.4rem;
+      cursor: default;
     }
     .lang-label {
       font-size: 0.6rem;
@@ -248,6 +249,13 @@
       text-transform: uppercase;
       color: #666;
       font-family: 'Space Mono', monospace;
+    }
+    /* Ring fill animates in on scroll */
+    .lang-ring-fill {
+      transition: stroke-dashoffset 0.7s ease;
+    }
+    .languages.animated .lang-ring-fill {
+      stroke-dashoffset: 0;
     }
 
     /* Skill bars */
@@ -276,9 +284,13 @@
     }
     .skill-bar-fill {
       height: 100%;
+      width: 0;
       background: var(--olive-dk);
       border-radius: 2px;
       transition: width 1.2s ease;
+    }
+    .skills-col.animated .skill-bar-fill {
+      width: var(--w);
     }
 
     /* ─── DIVIDER ─────────────────────────────────────────────── */
@@ -402,6 +414,7 @@
     .portfolios-section {
       background: rgba(200,150,12,0.04);
       padding: 4rem 0 2rem;
+      margin-top: 80px; /* matches the panel's translateY so it clears the panel bottom */
       position: relative;
       z-index: 10;
     }
@@ -686,32 +699,38 @@
     <div class="map-skills-row">
       <div class="map-placeholder">
         <div style="width:100%;">
-          <img src="images/map.svg" alt="World map showing origin" />
+          <img src="images/map.png" alt="World map showing origin" />
           <div class="languages">
             <div class="lang">
-              <!-- English: full ring (circumference of r=23 ≈ 144.5) -->
+              <!-- English: fills fully on hover. Default hidden (dashoffset=144.5), hover→0 -->
               <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="27" cy="27" r="23" stroke="#e0dbd0" stroke-width="4"/>
                 <circle cx="27" cy="27" r="23" stroke="#2D3319" stroke-width="4"
-                  stroke-dasharray="144.5 0" stroke-linecap="round" transform="rotate(-90 27 27)"/>
+                  stroke-dasharray="144.5 0" stroke-dashoffset="144.5"
+                  stroke-linecap="round" transform="rotate(-90 27 27)"
+                  class="lang-ring-fill"/>
               </svg>
               <span class="lang-label">English</span>
             </div>
             <div class="lang">
-              <!-- Malayalam: full ring -->
+              <!-- Malayalam: fills fully on hover -->
               <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="27" cy="27" r="23" stroke="#e0dbd0" stroke-width="4"/>
                 <circle cx="27" cy="27" r="23" stroke="#2D3319" stroke-width="4"
-                  stroke-dasharray="144.5 0" stroke-linecap="round" transform="rotate(-90 27 27)"/>
+                  stroke-dasharray="144.5 0" stroke-dashoffset="144.5"
+                  stroke-linecap="round" transform="rotate(-90 27 27)"
+                  class="lang-ring-fill"/>
               </svg>
               <span class="lang-label">Malayalam</span>
             </div>
             <div class="lang">
-              <!-- French: 1/5 = 28.9 of 144.5 -->
+              <!-- French: fills 1/5 on hover. dasharray fixed at 28.9/115.6; dashoffset 28.9→0 -->
               <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="27" cy="27" r="23" stroke="#e0dbd0" stroke-width="4"/>
                 <circle cx="27" cy="27" r="23" stroke="#2D3319" stroke-width="4"
-                  stroke-dasharray="28.9 115.6" stroke-linecap="round" transform="rotate(-90 27 27)"/>
+                  stroke-dasharray="28.9 115.6" stroke-dashoffset="28.9"
+                  stroke-linecap="round" transform="rotate(-90 27 27)"
+                  class="lang-ring-fill"/>
               </svg>
               <span class="lang-label">French</span>
             </div>
@@ -722,23 +741,23 @@
       <div class="skills-col">
         <div class="skill-row">
           <span class="skill-label">Communication</span>
-          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:80%"></div></div>
         </div>
         <div class="skill-row">
           <span class="skill-label">Innovative thinking</span>
-          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:80%"></div></div>
         </div>
         <div class="skill-row">
           <span class="skill-label">Teamwork</span>
-          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:70%"></div></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:70%"></div></div>
         </div>
         <div class="skill-row">
           <span class="skill-label">Leadership</span>
-          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:65%"></div></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:65%"></div></div>
         </div>
         <div class="skill-row">
           <span class="skill-label">Organisation</span>
-          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="--w:85%"></div></div>
         </div>
       </div>
     </div>
@@ -833,12 +852,7 @@
   <!-- ─── PORTFOLIOS ────────────────────────────────────────── -->
   <div class="portfolios-section">
     <div class="portfolios-wordmark">
-      portf
-      <span class="wm-logo">
-        <span class="wm-bar"></span>
-        <span class="wm-tri"></span>
-      </span>
-      s
+      portfol<img src="images/black logo.svg" alt="" style="height:0.85em; width:auto; vertical-align:middle; margin:0 2px; opacity:0.5;">s
     </div>
 
     <div class="folio-cards">
@@ -892,15 +906,7 @@
     <div class="site-footer">
       <!-- VSCO -->
       <a href="https://vsco.co/elevyn-s/gallery" class="footer-link" target="_blank" aria-label="VSCO">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="18" cy="18" r="16" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-          <circle cx="18" cy="18" r="10" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-          <circle cx="18" cy="18" r="3"  fill="rgba(255,255,255,0.5)"/>
-          <circle cx="18" cy="5"  r="1.2" fill="rgba(255,255,255,0.5)"/>
-          <circle cx="18" cy="31" r="1.2" fill="rgba(255,255,255,0.5)"/>
-          <circle cx="5"  cy="18" r="1.2" fill="rgba(255,255,255,0.5)"/>
-          <circle cx="31" cy="18" r="1.2" fill="rgba(255,255,255,0.5)"/>
-        </svg>
+        <img src="images/vsco4.svg" alt="VSCO" style="height:36px; width:auto; opacity:0.6;">
       </a>
 
       <!-- Home pause/play logo -->
@@ -1033,20 +1039,26 @@
         document.body.style.overflow = '';
       }
     });
-    // Animate skill bars on scroll into view
-    const bars   = document.querySelectorAll('.skill-bar-fill');
-    const widths = Array.from(bars).map(b => b.style.width);
-    bars.forEach(b => b.style.width = '0');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          bars.forEach((b, i) => b.style.width = widths[i]);
-          observer.disconnect();
-        }
-      });
-    }, { threshold: 0.3 });
-    const skillsSection = document.querySelector('.skills-col');
-    if (skillsSection) observer.observe(skillsSection);
+
+    // Animate skill bars on scroll
+    const skillsCol = document.querySelector('.skills-col');
+    if (skillsCol) {
+      new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { skillsCol.classList.add('animated'); obs.disconnect(); }
+        });
+      }, { threshold: 0.3 }).observe(skillsCol);
+    }
+
+    // Animate language rings on scroll
+    const langRings = document.querySelector('.languages');
+    if (langRings) {
+      new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { langRings.classList.add('animated'); obs.disconnect(); }
+        });
+      }, { threshold: 0.4 }).observe(langRings);
+    }
   </script>
 
 </body>
