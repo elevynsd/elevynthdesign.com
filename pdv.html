@@ -353,27 +353,32 @@
 
     /* Bottom info strip */
     .carousel-info {
-      padding: 1.5rem 2.5rem;
+      padding: 0.75rem 2.5rem;
       border-top: 0.5px solid rgba(232,228,220,0.08);
       background: rgba(4,2,12,0.6);
       display: flex;
       align-items: flex-start;
+      justify-content: center;
       gap: 3rem;
+      text-align: center;
     }
     .ci-block {}
     .ci-label {
-      font-size: 0.58rem;
+      font-size: 0.52rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: rgba(232,228,220,0.25);
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
       font-family: 'Space Mono', monospace;
     }
     .ci-value {
-      font-size: 0.8rem;
-      color: rgba(232,228,220,0.7);
-      line-height: 1.5;
+      font-size: 0.68rem;
+      color: rgba(232,228,220,0.6);
+      line-height: 1.4;
     }
+
+    /* Click-side navigation overlay */
+    .carousel-stage { cursor: pointer; }
 
     /* Keyboard hint */
     .key-hint {
@@ -446,7 +451,7 @@
           <span class="pc-tag">Speaker</span>
         </div>
         <div class="pc-bottom">
-          <span class="pc-slides-label">7 slides</span>
+          <span class="pc-slides-label">6 slides</span>
           <span class="pc-arrow">→</span>
         </div>
       </div>
@@ -476,22 +481,17 @@
         <button class="cb-back" onclick="closeDee()">← All projects</button>
         <span class="cb-project-name">Design emotion &amp; experience</span>
       </div>
-      <span class="cb-counter" id="dee-counter">1 / 7</span>
-      <div class="cb-nav">
-        <button class="cb-btn" id="dee-prev" onclick="moveDee(-1)" disabled aria-label="Previous slide">←</button>
-        <button class="cb-btn" id="dee-next" onclick="moveDee(1)" aria-label="Next slide">→</button>
-      </div>
+      <span class="cb-counter" id="dee-counter">1 / 6</span>
     </div>
 
     <div class="carousel-stage">
       <div class="slide-wrapper">
-        <div class="slide active" data-index="0"><img src="images/pdv/1.svg" alt="DEE — Portfolio contents" loading="lazy" /></div>
-        <div class="slide" data-index="1"><img src="images/pdv/2.svg" alt="DEE — Slide 2" loading="lazy" /></div>
-        <div class="slide" data-index="2"><img src="images/pdv/3.svg" alt="DEE — Slide 3" loading="lazy" /></div>
-        <div class="slide" data-index="3"><img src="images/pdv/4.svg" alt="DEE — Slide 4" loading="lazy" /></div>
-        <div class="slide" data-index="4"><img src="images/pdv/5.svg" alt="DEE — Slide 5" loading="lazy" /></div>
-        <div class="slide" data-index="5"><img src="images/pdv/6.svg" alt="DEE — Slide 6" loading="lazy" /></div>
-        <div class="slide" data-index="6"><img src="images/pdv/7.svg" alt="DEE — Slide 7" loading="lazy" /></div>
+        <div class="slide active" data-index="0"><img src="images/pdv/2.svg" alt="DEE — Slide 1" loading="lazy" /></div>
+        <div class="slide" data-index="1"><img src="images/pdv/3.svg" alt="DEE — Slide 2" loading="lazy" /></div>
+        <div class="slide" data-index="2"><img src="images/pdv/4.svg" alt="DEE — Slide 3" loading="lazy" /></div>
+        <div class="slide" data-index="3"><img src="images/pdv/5.svg" alt="DEE — Slide 4" loading="lazy" /></div>
+        <div class="slide" data-index="4"><img src="images/pdv/6.svg" alt="DEE — Slide 5" loading="lazy" /></div>
+        <div class="slide" data-index="5"><img src="images/pdv/7.svg" alt="DEE — Slide 6" loading="lazy" /></div>
 
         <div class="slide-caption">
           <span class="sc-label" id="dee-slide-label">Contents</span>
@@ -514,7 +514,7 @@
         <p class="ci-value">Surface model renderings · Social/spatial contexts<br>Emotional/aesthetic features · Commercial framework<br>Technical description · Design process</p>
       </div>
     </div>
-    <p class="key-hint">Use ← → arrow keys to navigate</p>
+    <p class="key-hint">Click left / right to navigate · swipe on touch · arrow keys</p>
 
     <div class="page-footer">
       <a href="index.html" class="footer-home" aria-label="Home">
@@ -533,10 +533,6 @@
         <span class="cb-project-name">Individual integrating project</span>
       </div>
       <span class="cb-counter" id="iip-counter">1 / 17</span>
-      <div class="cb-nav">
-        <button class="cb-btn" id="iip-prev" onclick="moveIip(-1)" disabled aria-label="Previous slide">←</button>
-        <button class="cb-btn" id="iip-next" onclick="moveIip(1)" aria-label="Next slide">→</button>
-      </div>
     </div>
 
     <div class="carousel-stage">
@@ -580,7 +576,7 @@
         <p class="ci-value">Body diagrams, calculations and product costing sections omitted.<br>Design concepts and renders included in full.</p>
       </div>
     </div>
-    <p class="key-hint">Use ← → arrow keys to navigate</p>
+    <p class="key-hint">Click left / right to navigate · swipe on touch · arrow keys</p>
 
     <div class="page-footer">
       <a href="index.html" class="footer-home" aria-label="Home">
@@ -594,16 +590,17 @@
   <script>
     /* ── Carousel state ── */
     const state = {
-      dee: { current: 0, total: 7,  labels: ['Contents','Surface model renderings','Social/spatial contexts of experience','Emotional/aesthetic features','Commercial framework','Technical description','Design process'] },
+      dee: { current: 0, total: 6,  labels: ['Surface model renderings','Social/spatial contexts of experience','Emotional/aesthetic features','Commercial framework','Technical description','Design process'] },
       iip: { current: 0, total: 17, labels: Array.from({length:17}, (_,i) => `Slide ${i+1}`) }
     };
+
+    const logo = document.querySelector('.logo');
 
     /* ── Build dots ── */
     function buildDots(id) {
       const s = state[id];
       const el = document.getElementById(id + '-dots');
       el.innerHTML = '';
-      // max 17 dots — show all; they're small dashes
       for (let i = 0; i < s.total; i++) {
         const d = document.createElement('div');
         d.className = 'sc-dot' + (i === s.current ? ' active' : '');
@@ -622,26 +619,22 @@
 
       document.getElementById(id + '-counter').textContent = `${s.current + 1} / ${s.total}`;
       document.getElementById(id + '-slide-label').textContent = s.labels[s.current];
-      document.getElementById(id + '-prev').disabled = s.current === 0;
-      document.getElementById(id + '-next').disabled = s.current === s.total - 1;
       buildDots(id);
     }
 
-    function moveDee(dir) {
-      const s = state.dee;
+    function move(id, dir) {
+      const s = state[id];
       s.current = Math.max(0, Math.min(s.total - 1, s.current + dir));
-      updateCarousel('dee', dir);
+      updateCarousel(id, dir);
     }
-    function moveIip(dir) {
-      const s = state.iip;
-      s.current = Math.max(0, Math.min(s.total - 1, s.current + dir));
-      updateCarousel('iip', dir);
-    }
+    function moveDee(dir) { move('dee', dir); }
+    function moveIip(dir) { move('iip', dir); }
 
     /* ── Open / close ── */
     function openProject(id) {
       document.getElementById('landing').classList.add('hidden');
       document.getElementById('carousel-' + id).classList.add('active');
+      logo.style.display = 'none';
       state[id].current = 0;
       updateCarousel(id, 1);
       window.scrollTo(0, 0);
@@ -649,11 +642,34 @@
     function closeDee() {
       document.getElementById('carousel-dee').classList.remove('active');
       document.getElementById('landing').classList.remove('hidden');
+      logo.style.display = '';
     }
     function closeIip() {
       document.getElementById('carousel-iip').classList.remove('active');
       document.getElementById('landing').classList.remove('hidden');
+      logo.style.display = '';
     }
+
+    /* ── Click left/right half to navigate (desktop) ── */
+    document.querySelectorAll('.carousel-stage').forEach(stage => {
+      stage.addEventListener('click', e => {
+        const id = stage.closest('.carousel-view').id.replace('carousel-', '');
+        const half = stage.getBoundingClientRect().width / 2;
+        move(id, e.clientX - stage.getBoundingClientRect().left < half ? -1 : 1);
+      });
+    });
+
+    /* ── Touch swipe (mobile/tablet) ── */
+    let touchStartX = 0;
+    document.querySelectorAll('.carousel-stage').forEach(stage => {
+      stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      stage.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) < 30) return;
+        const id = stage.closest('.carousel-view').id.replace('carousel-', '');
+        move(id, dx < 0 ? 1 : -1);
+      });
+    });
 
     /* ── Keyboard navigation ── */
     document.addEventListener('keydown', e => {
