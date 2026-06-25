@@ -10,14 +10,6 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 300;
-      background: #F5F2EC;
-      color: #1a1200;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
 
     :root {
       --amber:    #C8960C;
@@ -26,7 +18,40 @@
       --olive-md: #6B7448;
       --terra:    #C1724F;
       --off-white:#F5F2EC;
-      --warm-mid: #E0DBCF;
+    }
+
+    /* ── DARK BACKGROUND (same as pdv) ── */
+    body {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      background-color: #07031b;
+      background-image: url('images/iad/bg.svg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #1a1200;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 2, 12, 0.80);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── WHITE PANEL ── */
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      background: var(--off-white);
+      width: 88%;
+      max-width: 1100px;
+      margin: 0 auto;
+      box-shadow: 0 0 80px rgba(0,0,0,0.5);
+      min-height: 100vh;
     }
 
     /* ── LOGO ── */
@@ -56,8 +81,6 @@
     /* ── HEADER ── */
     .page-header {
       padding: 5rem 3rem 0;
-      max-width: 1200px;
-      margin: 0 auto;
     }
     .page-eyebrow {
       font-family: 'Space Mono', monospace;
@@ -89,8 +112,6 @@
       margin-top: 2rem;
     }
     .tabs-inner {
-      max-width: 1200px;
-      margin: 0 auto;
       display: flex;
       gap: 0;
     }
@@ -133,11 +154,9 @@
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* ── MASONRY GRID ── */
+    /* ── WORKS GRID (completed works) ── */
     .masonry-wrap {
       padding: 2.5rem 3rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
     }
     .masonry {
       display: grid;
@@ -145,8 +164,8 @@
       gap: 12px;
       align-items: start;
     }
-    @media (max-width: 900px) { .masonry { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) { .masonry { grid-template-columns: 1fr; } }
+    @media (max-width: 700px) { .masonry { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 440px) { .masonry { grid-template-columns: 1fr; } }
 
     .masonry-item {
       cursor: zoom-in;
@@ -154,10 +173,6 @@
       overflow: hidden;
       background: rgba(26,18,0,0.04);
     }
-    .masonry-item--hero {
-      grid-column: span 2;
-    }
-    @media (max-width: 560px) { .masonry-item--hero { grid-column: span 1; } }
     .masonry-item img {
       width: 100%;
       height: auto;
@@ -186,28 +201,26 @@
     /* ── SKETCHES GRID ── */
     .sketches-wrap {
       padding: 2.5rem 3rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
     }
     .sketches-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 10px;
+      align-items: start;
     }
     .sketch-item {
-      aspect-ratio: 1;
       overflow: hidden;
       cursor: zoom-in;
       background: rgba(26,18,0,0.04);
       position: relative;
     }
     .sketch-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
+      width: 100%;
+      height: auto;
       display: block;
       transition: transform 0.35s ease, filter 0.3s;
     }
-    .sketch-item:hover img { transform: scale(1.05); filter: brightness(0.9); }
+    .sketch-item:hover img { transform: scale(1.03); filter: brightness(0.9); }
     .sketch-item .item-overlay {
       position: absolute; inset: 0;
       display: flex; align-items: flex-end; padding: 0.75rem;
@@ -218,12 +231,9 @@
 
     /* ── KYOTO PANEL ── */
     .kyoto-wrap {
-      max-width: 1200px;
-      margin: 0 auto;
       padding: 2.5rem 3rem 4rem;
     }
 
-    /* Title card */
     .kyoto-title-card {
       background: var(--olive-dk);
       color: #fff;
@@ -266,14 +276,6 @@
       margin-bottom: 0.75rem;
       color: var(--amber-lt);
     }
-    .ktc-sub {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 300;
-      font-style: italic;
-      font-size: 1rem;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 1.5rem;
-    }
     .ktc-meta {
       display: flex;
       gap: 1.5rem;
@@ -289,21 +291,19 @@
       color: rgba(255,255,255,0.45);
     }
 
-    /* Kyoto carousel */
+    /* Kyoto carousel — constrained width, no lightbox */
     .kyoto-carousel {
-      position: relative;
+      max-width: 600px;
+      margin: 0 auto;
     }
     .kyoto-main-img {
       width: 100%;
       overflow: hidden;
-      cursor: zoom-in;
-      position: relative;
     }
     .kyoto-main-img img {
       width: 100%;
       height: auto;
       display: block;
-      transition: opacity 0.3s;
     }
     .kyoto-nav {
       display: flex;
@@ -333,7 +333,6 @@
     .kyoto-btn:hover:not(:disabled) { border-color: var(--olive-dk); color: var(--olive-dk); }
     .kyoto-btn:disabled { opacity: 0.2; cursor: default; }
 
-    /* Kyoto thumbnail strip */
     .kyoto-thumbs {
       display: flex;
       gap: 6px;
@@ -345,8 +344,8 @@
     .kyoto-thumbs::-webkit-scrollbar { display: none; }
     .kyoto-thumb {
       flex-shrink: 0;
-      width: 80px;
-      height: 55px;
+      width: 60px;
+      height: 44px;
       overflow: hidden;
       cursor: pointer;
       opacity: 0.4;
@@ -357,7 +356,6 @@
     .kyoto-thumb:hover { opacity: 0.8; }
     .kyoto-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* Key hint */
     .key-hint {
       text-align: right;
       font-size: 0.55rem;
@@ -377,9 +375,7 @@
       justify-content: center;
       padding: 1rem;
     }
-    .lb-overlay.open {
-      display: flex;
-    }
+    .lb-overlay.open { display: flex; }
     .lb-inner {
       position: relative;
       max-width: 90vw;
@@ -396,8 +392,7 @@
     }
     .lb-close {
       position: fixed;
-      top: 1.25rem;
-      right: 1.5rem;
+      top: 1.25rem; right: 1.5rem;
       background: none;
       border: 0.5px solid rgba(255,255,255,0.25);
       color: rgba(255,255,255,0.6);
@@ -411,8 +406,7 @@
     .lb-close:hover { color: #fff; border-color: #fff; }
     .lb-prev, .lb-next {
       position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 50%; transform: translateY(-50%);
       background: none;
       border: 0.5px solid rgba(255,255,255,0.2);
       color: rgba(255,255,255,0.5);
@@ -429,9 +423,7 @@
     .lb-prev:disabled, .lb-next:disabled { opacity: 0.15; cursor: default; }
     .lb-counter {
       position: fixed;
-      bottom: 1.25rem;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 1.25rem; left: 50%; transform: translateX(-50%);
       font-family: 'Space Mono', monospace;
       font-size: 0.6rem;
       letter-spacing: 0.1em;
@@ -462,7 +454,6 @@
     @media (max-width: 640px) {
       .page-header, .tabs-bar { padding-left: 1.25rem; padding-right: 1.25rem; }
       .masonry-wrap, .sketches-wrap, .kyoto-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
-      .masonry { columns: 2; }
     }
   </style>
 </head>
@@ -474,236 +465,247 @@
     <div class="logo-tri"></div>
   </a>
 
-  <!-- HEADER -->
-  <div class="page-header">
-    <p class="page-eyebrow">elevynthdesign · portfolio</p>
-    <h1 class="page-title">Independent art <span>&amp; design</span></h1>
-  </div>
+  <div class="page-wrap">
 
-  <!-- TABS -->
-  <div class="tabs-bar">
-    <div class="tabs-inner">
-      <button class="tab-btn active" onclick="switchTab('digital')" id="tab-digital">
-        Completed works <span class="tab-count">29</span>
-      </button>
-      <button class="tab-btn" onclick="switchTab('sketches')" id="tab-sketches">
-        Sketches <span class="tab-count">10</span>
-      </button>
-      <button class="tab-btn" onclick="switchTab('kyoto')" id="tab-kyoto">
-        Hope is a waking dream <span class="tab-count">10</span>
-      </button>
+    <!-- HEADER -->
+    <div class="page-header">
+      <p class="page-eyebrow">elevynthdesign · portfolio</p>
+      <h1 class="page-title">Independent art <span>&amp; design</span></h1>
     </div>
-  </div>
 
-  <!-- ══ TAB: DIGITAL WORKS ══════════════════════════════════════ -->
-  <div class="tab-panel active" id="panel-digital">
-    <div class="masonry-wrap">
-      <div class="masonry" id="masonry-digital">
-
-        <div class="masonry-item masonry-item--hero" onclick="openLb('digital',0)">
-          <img src="images/iad/COME A LITTLE CLOSER.png" alt="Come a little closer" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">01</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',1)">
-          <img src="images/iad/BREATHE OUT THE AIR.png" alt="Breathe out the air" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">02</span></div>
-        </div>
-        <div class="masonry-item masonry-item--hero" onclick="openLb('digital',2)">
-          <img src="images/iad/45.png" alt="Digital work 45" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">03</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',3)">
-          <img src="images/iad/CHUNKING EXPRESS.png" alt="Chunking express" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">04</span></div>
-        </div>
-        <div class="masonry-item masonry-item--hero" onclick="openLb('digital',4)">
-          <img src="images/iad/43.png" alt="Digital work 43" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">05</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',5)">
-          <img src="images/iad/SHARED DRINKS.png" alt="Shared drinks" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">06</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',6)">
-          <img src="images/iad/44.png" alt="Digital work 44" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">07</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',7)">
-          <img src="images/iad/22.svg" alt="Digital work 8" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">08</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',8)">
-          <img src="images/iad/21.svg" alt="Digital work 9" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">09</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',9)">
-          <img src="images/iad/20.svg" alt="Digital work 10" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">10</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',10)">
-          <img src="images/iad/19.svg" alt="Digital work 11" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">11</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',11)">
-          <img src="images/iad/18.svg" alt="Digital work 12" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">12</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',12)">
-          <img src="images/iad/17.svg" alt="Digital work 13" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">13</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',13)">
-          <img src="images/iad/16.svg" alt="Digital work 14" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">14</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',14)">
-          <img src="images/iad/15.svg" alt="Digital work 15" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">15</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',15)">
-          <img src="images/iad/14.svg" alt="Digital work 16" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">16</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',16)">
-          <img src="images/iad/13.svg" alt="Digital work 17" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">17</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',17)">
-          <img src="images/iad/12.svg" alt="Digital work 18" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">18</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',18)">
-          <img src="images/iad/11.svg" alt="Digital work 19" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">19</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',19)">
-          <img src="images/iad/10.svg" alt="Digital work 20" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">20</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',20)">
-          <img src="images/iad/9.svg" alt="Digital work 21" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">21</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',21)">
-          <img src="images/iad/8.svg" alt="Digital work 22" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">22</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',22)">
-          <img src="images/iad/7.svg" alt="Digital work 23" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">23</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',23)">
-          <img src="images/iad/6.svg" alt="Digital work 24" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">24</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',24)">
-          <img src="images/iad/5.svg" alt="Digital work 25" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">25</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',25)">
-          <img src="images/iad/4.svg" alt="Digital work 26" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">26</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',26)">
-          <img src="images/iad/3.svg" alt="Digital work 27" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">27</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',27)">
-          <img src="images/iad/2.svg" alt="Digital work 28" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">28</span></div>
-        </div>
-        <div class="masonry-item" onclick="openLb('digital',28)">
-          <img src="images/iad/1.svg" alt="Digital work 29" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">29</span></div>
-        </div>
-
+    <!-- TABS -->
+    <div class="tabs-bar">
+      <div class="tabs-inner">
+        <button class="tab-btn active" onclick="switchTab('digital')" id="tab-digital">
+          Completed works <span class="tab-count">29</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('sketches')" id="tab-sketches">
+          Sketches <span class="tab-count">10</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('kyoto')" id="tab-kyoto">
+          Hope is a waking dream <span class="tab-count">10</span>
+        </button>
       </div>
     </div>
-  </div>
 
-  <!-- ══ TAB: SKETCHES ══════════════════════════════════════════ -->
-  <div class="tab-panel" id="panel-sketches">
-    <div class="sketches-wrap">
-      <div class="sketches-grid">
-        <div class="sketch-item" onclick="openLb('sketches',0)">
-          <img src="images/iad/32.svg" alt="Sketch 1" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">01</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',1)">
-          <img src="images/iad/31.svg" alt="Sketch 2" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">02</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',2)">
-          <img src="images/iad/30.svg" alt="Sketch 3" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">03</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',3)">
-          <img src="images/iad/29.svg" alt="Sketch 4" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">04</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',4)">
-          <img src="images/iad/28.svg" alt="Sketch 5" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">05</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',5)">
-          <img src="images/iad/27.svg" alt="Sketch 6" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">06</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',6)">
-          <img src="images/iad/26.svg" alt="Sketch 7" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">07</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',7)">
-          <img src="images/iad/25.svg" alt="Sketch 8" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">08</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',8)">
-          <img src="images/iad/24.svg" alt="Sketch 9" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">09</span></div>
-        </div>
-        <div class="sketch-item" onclick="openLb('sketches',9)">
-          <img src="images/iad/23.svg" alt="Sketch 10" loading="lazy" />
-          <div class="item-overlay"><span class="item-num">10</span></div>
+    <!-- ══ TAB: COMPLETED WORKS ══════════════════════════════════════ -->
+    <div class="tab-panel active" id="panel-digital">
+      <div class="masonry-wrap">
+        <div class="masonry">
+
+          <div class="masonry-item" onclick="openLb('digital',0)">
+            <img src="images/iad/COME A LITTLE CLOSER.png" alt="Come a little closer" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">01</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',1)">
+            <img src="images/iad/BREATHE OUT THE AIR.png" alt="Breathe out the air" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">02</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',2)">
+            <img src="images/iad/CHUNKING EXPRESS.png" alt="Chunking express" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">03</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',3)">
+            <img src="images/iad/SHARED DRINKS.png" alt="Shared drinks" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">04</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',4)">
+            <img src="images/iad/45.png" alt="Digital work 45" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">05</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',5)">
+            <img src="images/iad/44.png" alt="Digital work 44" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">06</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',6)">
+            <img src="images/iad/43.png" alt="Digital work 43" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">07</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',7)">
+            <img src="images/iad/22.svg" alt="Digital work 8" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">08</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',8)">
+            <img src="images/iad/21.svg" alt="Digital work 9" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">09</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',9)">
+            <img src="images/iad/20.svg" alt="Digital work 10" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">10</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',10)">
+            <img src="images/iad/19.svg" alt="Digital work 11" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">11</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',11)">
+            <img src="images/iad/18.svg" alt="Digital work 12" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">12</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',12)">
+            <img src="images/iad/17.svg" alt="Digital work 13" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">13</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',13)">
+            <img src="images/iad/16.svg" alt="Digital work 14" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">14</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',14)">
+            <img src="images/iad/15.svg" alt="Digital work 15" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">15</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',15)">
+            <img src="images/iad/14.svg" alt="Digital work 16" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">16</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',16)">
+            <img src="images/iad/13.svg" alt="Digital work 17" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">17</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',17)">
+            <img src="images/iad/12.svg" alt="Digital work 18" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">18</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',18)">
+            <img src="images/iad/11.svg" alt="Digital work 19" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">19</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',19)">
+            <img src="images/iad/10.svg" alt="Digital work 20" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">20</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',20)">
+            <img src="images/iad/9.svg" alt="Digital work 21" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">21</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',21)">
+            <img src="images/iad/8.svg" alt="Digital work 22" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">22</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',22)">
+            <img src="images/iad/7.svg" alt="Digital work 23" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">23</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',23)">
+            <img src="images/iad/6.svg" alt="Digital work 24" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">24</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',24)">
+            <img src="images/iad/5.svg" alt="Digital work 25" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">25</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',25)">
+            <img src="images/iad/4.svg" alt="Digital work 26" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">26</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',26)">
+            <img src="images/iad/3.svg" alt="Digital work 27" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">27</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',27)">
+            <img src="images/iad/2.svg" alt="Digital work 28" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">28</span></div>
+          </div>
+          <div class="masonry-item" onclick="openLb('digital',28)">
+            <img src="images/iad/1.svg" alt="Digital work 29" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">29</span></div>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ══ TAB: KYOTO / HOPE IS A WAKING DREAM ═══════════════════ -->
-  <div class="tab-panel" id="panel-kyoto">
-    <div class="kyoto-wrap">
-
-      <!-- Exhibition title card -->
-      <div class="kyoto-title-card">
-        <p class="ktc-eyebrow">Kyoto Creators Competition 2024 · Excerpts</p>
-        <h2 class="ktc-title">Hope is a<br>waking dream</h2>
-        <div class="ktc-meta">
-          <span class="ktc-pill">Digital illustration</span>
-          <span class="ktc-pill">Competition entry</span>
-          <span class="ktc-pill">2024</span>
+    <!-- ══ TAB: SKETCHES ══════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-sketches">
+      <div class="sketches-wrap">
+        <div class="sketches-grid">
+          <div class="sketch-item" onclick="openLb('sketches',0)">
+            <img src="images/iad/32.svg" alt="Sketch 1" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">01</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',1)">
+            <img src="images/iad/31.svg" alt="Sketch 2" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">02</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',2)">
+            <img src="images/iad/30.svg" alt="Sketch 3" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">03</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',3)">
+            <img src="images/iad/29.svg" alt="Sketch 4" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">04</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',4)">
+            <img src="images/iad/28.svg" alt="Sketch 5" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">05</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',5)">
+            <img src="images/iad/27.svg" alt="Sketch 6" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">06</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',6)">
+            <img src="images/iad/26.svg" alt="Sketch 7" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">07</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',7)">
+            <img src="images/iad/25.svg" alt="Sketch 8" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">08</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',8)">
+            <img src="images/iad/24.svg" alt="Sketch 9" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">09</span></div>
+          </div>
+          <div class="sketch-item" onclick="openLb('sketches',9)">
+            <img src="images/iad/23.svg" alt="Sketch 10" loading="lazy" />
+            <div class="item-overlay"><span class="item-num">10</span></div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- Large carousel viewer -->
-      <div class="kyoto-carousel">
-        <div class="kyoto-main-img" onclick="openLb('kyoto',kyotoIdx)">
-          <img id="kyoto-main" src="images/iad/42.svg" alt="Hope is a waking dream — 1" />
-        </div>
+    <!-- ══ TAB: KYOTO / HOPE IS A WAKING DREAM ═══════════════════ -->
+    <div class="tab-panel" id="panel-kyoto">
+      <div class="kyoto-wrap">
 
-        <div class="kyoto-nav">
-          <span class="kyoto-counter" id="kyoto-counter">1 / 10</span>
-          <div class="kyoto-btns">
-            <button class="kyoto-btn" id="kyoto-prev" onclick="moveKyoto(-1)" disabled aria-label="Previous">←</button>
-            <button class="kyoto-btn" id="kyoto-next" onclick="moveKyoto(1)" aria-label="Next">→</button>
+        <div class="kyoto-title-card">
+          <p class="ktc-eyebrow">Kyoto Creators Competition 2024 · Excerpts</p>
+          <h2 class="ktc-title">Hope is a<br>waking dream</h2>
+          <div class="ktc-meta">
+            <span class="ktc-pill">Digital illustration</span>
+            <span class="ktc-pill">Competition entry</span>
+            <span class="ktc-pill">2024</span>
           </div>
         </div>
 
-        <div class="kyoto-thumbs" id="kyoto-thumbs"></div>
-        <p class="key-hint">← → keys to navigate · click image to enlarge</p>
-      </div>
+        <div class="kyoto-carousel">
+          <div class="kyoto-main-img">
+            <img id="kyoto-main" src="images/iad/42.svg" alt="Hope is a waking dream — 1" />
+          </div>
 
+          <div class="kyoto-nav">
+            <span class="kyoto-counter" id="kyoto-counter">1 / 10</span>
+            <div class="kyoto-btns">
+              <button class="kyoto-btn" id="kyoto-prev" onclick="moveKyoto(-1)" disabled aria-label="Previous">←</button>
+              <button class="kyoto-btn" id="kyoto-next" onclick="moveKyoto(1)" aria-label="Next">→</button>
+            </div>
+          </div>
+
+          <div class="kyoto-thumbs" id="kyoto-thumbs"></div>
+          <p class="key-hint">← → keys to navigate</p>
+        </div>
+
+      </div>
     </div>
-  </div>
+
+    <!-- FOOTER -->
+    <div class="page-footer">
+      <a href="index.html" class="footer-home" aria-label="Home">
+        <div class="footer-bar"></div>
+        <div class="footer-bar"></div>
+        <div class="footer-tri"></div>
+      </a>
+    </div>
+
+  </div><!-- /page-wrap -->
 
   <!-- ══ LIGHTBOX ══════════════════════════════════════════════ -->
   <div class="lb-overlay" id="lb" onclick="lbClickOutside(event)">
@@ -716,22 +718,12 @@
     <span class="lb-counter" id="lb-counter"></span>
   </div>
 
-  <!-- FOOTER -->
-  <div class="page-footer">
-    <a href="index.html" class="footer-home" aria-label="Home">
-      <div class="footer-bar"></div>
-      <div class="footer-bar"></div>
-      <div class="footer-tri"></div>
-    </a>
-  </div>
-
   <script>
-    /* ── Image sets ── */
     const sets = {
       digital: [
         'images/iad/COME A LITTLE CLOSER.png','images/iad/BREATHE OUT THE AIR.png',
-        'images/iad/45.png','images/iad/CHUNKING EXPRESS.png',
-        'images/iad/43.png','images/iad/SHARED DRINKS.png','images/iad/44.png',
+        'images/iad/CHUNKING EXPRESS.png','images/iad/SHARED DRINKS.png',
+        'images/iad/45.png','images/iad/44.png','images/iad/43.png',
         'images/iad/22.svg','images/iad/21.svg','images/iad/20.svg',
         'images/iad/19.svg','images/iad/18.svg','images/iad/17.svg',
         'images/iad/16.svg','images/iad/15.svg','images/iad/14.svg',
@@ -774,9 +766,7 @@
         d.className = 'kyoto-thumb' + (i === 0 ? ' active' : '');
         d.onclick = () => goKyoto(i);
         const img = document.createElement('img');
-        img.src = src;
-        img.alt = 'Thumbnail ' + (i + 1);
-        img.loading = 'lazy';
+        img.src = src; img.alt = 'Thumbnail ' + (i + 1); img.loading = 'lazy';
         d.appendChild(img);
         strip.appendChild(d);
       });
@@ -788,28 +778,22 @@
       document.getElementById('kyoto-counter').textContent = (i + 1) + ' / ' + kyotoSrcs.length;
       document.getElementById('kyoto-prev').disabled = i === 0;
       document.getElementById('kyoto-next').disabled = i === kyotoSrcs.length - 1;
-      document.querySelectorAll('.kyoto-thumb').forEach((t, j) => {
-        t.classList.toggle('active', j === i);
-      });
-      const thumbs = document.getElementById('kyoto-thumbs');
-      const active = thumbs.children[i];
+      document.querySelectorAll('.kyoto-thumb').forEach((t, j) => t.classList.toggle('active', j === i));
+      const active = document.getElementById('kyoto-thumbs').children[i];
       if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
 
     function moveKyoto(dir) {
-      const next = Math.max(0, Math.min(kyotoSrcs.length - 1, kyotoIdx + dir));
-      goKyoto(next);
+      goKyoto(Math.max(0, Math.min(kyotoSrcs.length - 1, kyotoIdx + dir)));
     }
 
     buildThumbs();
 
-    /* ── Lightbox ── */
-    let lbSet = 'digital';
-    let lbIdx = 0;
+    /* ── Lightbox (digital + sketches only) ── */
+    let lbSet = 'digital', lbIdx = 0;
 
     function openLb(set, idx) {
-      lbSet = set;
-      lbIdx = idx;
+      lbSet = set; lbIdx = idx;
       updateLb();
       document.getElementById('lb').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -824,10 +808,8 @@
     }
 
     function lbMove(dir) {
-      const arr = sets[lbSet];
-      lbIdx = Math.max(0, Math.min(arr.length - 1, lbIdx + dir));
+      lbIdx = Math.max(0, Math.min(sets[lbSet].length - 1, lbIdx + dir));
       updateLb();
-      if (lbSet === 'kyoto') goKyoto(lbIdx);
     }
 
     function closeLb() {
@@ -839,7 +821,7 @@
       if (e.target === document.getElementById('lb')) closeLb();
     }
 
-    /* ── Keyboard navigation ── */
+    /* ── Keyboard ── */
     document.addEventListener('keydown', e => {
       if (document.getElementById('lb').classList.contains('open')) {
         if (e.key === 'ArrowRight') lbMove(1);
