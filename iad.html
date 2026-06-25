@@ -140,20 +140,24 @@
       margin: 0 auto;
     }
     .masonry {
-      columns: 3;
-      column-gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      align-items: start;
     }
-    @media (max-width: 900px) { .masonry { columns: 2; } }
-    @media (max-width: 560px) { .masonry { columns: 1; } }
+    @media (max-width: 900px) { .masonry { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .masonry { grid-template-columns: 1fr; } }
 
     .masonry-item {
-      break-inside: avoid;
-      margin-bottom: 12px;
       cursor: zoom-in;
       position: relative;
       overflow: hidden;
       background: rgba(26,18,0,0.04);
     }
+    .masonry-item--hero {
+      grid-column: span 2;
+    }
+    @media (max-width: 560px) { .masonry-item--hero { grid-column: span 1; } }
     .masonry-item img {
       width: 100%;
       height: auto;
@@ -291,15 +295,13 @@
     }
     .kyoto-main-img {
       width: 100%;
-      aspect-ratio: 16/10;
       overflow: hidden;
-      background: rgba(26,18,0,0.06);
       cursor: zoom-in;
       position: relative;
     }
     .kyoto-main-img img {
-      width: 100%; height: 100%;
-      object-fit: contain;
+      width: 100%;
+      height: auto;
       display: block;
       transition: opacity 0.3s;
     }
@@ -482,7 +484,7 @@
   <div class="tabs-bar">
     <div class="tabs-inner">
       <button class="tab-btn active" onclick="switchTab('digital')" id="tab-digital">
-        Digital works <span class="tab-count">25</span>
+        Completed works <span class="tab-count">29</span>
       </button>
       <button class="tab-btn" onclick="switchTab('sketches')" id="tab-sketches">
         Sketches <span class="tab-count">10</span>
@@ -498,105 +500,121 @@
     <div class="masonry-wrap">
       <div class="masonry" id="masonry-digital">
 
-        <div class="masonry-item" onclick="openLb('digital',0)">
-          <img src="images/iad/45.png" alt="Digital work 1" loading="lazy" />
+        <div class="masonry-item masonry-item--hero" onclick="openLb('digital',0)">
+          <img src="images/iad/COME A LITTLE CLOSER.png" alt="Come a little closer" loading="lazy" />
           <div class="item-overlay"><span class="item-num">01</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',1)">
-          <img src="images/iad/44.png" alt="Digital work 2" loading="lazy" />
+          <img src="images/iad/BREATHE OUT THE AIR.png" alt="Breathe out the air" loading="lazy" />
           <div class="item-overlay"><span class="item-num">02</span></div>
         </div>
-        <div class="masonry-item" onclick="openLb('digital',2)">
-          <img src="images/iad/43.png" alt="Digital work 3" loading="lazy" />
+        <div class="masonry-item masonry-item--hero" onclick="openLb('digital',2)">
+          <img src="images/iad/45.png" alt="Digital work 45" loading="lazy" />
           <div class="item-overlay"><span class="item-num">03</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',3)">
-          <img src="images/iad/22.svg" alt="Digital work 4" loading="lazy" />
+          <img src="images/iad/CHUNKING EXPRESS.png" alt="Chunking express" loading="lazy" />
           <div class="item-overlay"><span class="item-num">04</span></div>
         </div>
-        <div class="masonry-item" onclick="openLb('digital',4)">
-          <img src="images/iad/21.svg" alt="Digital work 5" loading="lazy" />
+        <div class="masonry-item masonry-item--hero" onclick="openLb('digital',4)">
+          <img src="images/iad/43.png" alt="Digital work 43" loading="lazy" />
           <div class="item-overlay"><span class="item-num">05</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',5)">
-          <img src="images/iad/20.svg" alt="Digital work 6" loading="lazy" />
+          <img src="images/iad/SHARED DRINKS.png" alt="Shared drinks" loading="lazy" />
           <div class="item-overlay"><span class="item-num">06</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',6)">
-          <img src="images/iad/19.svg" alt="Digital work 7" loading="lazy" />
+          <img src="images/iad/44.png" alt="Digital work 44" loading="lazy" />
           <div class="item-overlay"><span class="item-num">07</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',7)">
-          <img src="images/iad/18.svg" alt="Digital work 8" loading="lazy" />
+          <img src="images/iad/22.svg" alt="Digital work 8" loading="lazy" />
           <div class="item-overlay"><span class="item-num">08</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',8)">
-          <img src="images/iad/17.svg" alt="Digital work 9" loading="lazy" />
+          <img src="images/iad/21.svg" alt="Digital work 9" loading="lazy" />
           <div class="item-overlay"><span class="item-num">09</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',9)">
-          <img src="images/iad/16.svg" alt="Digital work 10" loading="lazy" />
+          <img src="images/iad/20.svg" alt="Digital work 10" loading="lazy" />
           <div class="item-overlay"><span class="item-num">10</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',10)">
-          <img src="images/iad/15.svg" alt="Digital work 11" loading="lazy" />
+          <img src="images/iad/19.svg" alt="Digital work 11" loading="lazy" />
           <div class="item-overlay"><span class="item-num">11</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',11)">
-          <img src="images/iad/14.svg" alt="Digital work 12" loading="lazy" />
+          <img src="images/iad/18.svg" alt="Digital work 12" loading="lazy" />
           <div class="item-overlay"><span class="item-num">12</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',12)">
-          <img src="images/iad/13.svg" alt="Digital work 13" loading="lazy" />
+          <img src="images/iad/17.svg" alt="Digital work 13" loading="lazy" />
           <div class="item-overlay"><span class="item-num">13</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',13)">
-          <img src="images/iad/12.svg" alt="Digital work 14" loading="lazy" />
+          <img src="images/iad/16.svg" alt="Digital work 14" loading="lazy" />
           <div class="item-overlay"><span class="item-num">14</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',14)">
-          <img src="images/iad/11.svg" alt="Digital work 15" loading="lazy" />
+          <img src="images/iad/15.svg" alt="Digital work 15" loading="lazy" />
           <div class="item-overlay"><span class="item-num">15</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',15)">
-          <img src="images/iad/10.svg" alt="Digital work 16" loading="lazy" />
+          <img src="images/iad/14.svg" alt="Digital work 16" loading="lazy" />
           <div class="item-overlay"><span class="item-num">16</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',16)">
-          <img src="images/iad/9.svg" alt="Digital work 17" loading="lazy" />
+          <img src="images/iad/13.svg" alt="Digital work 17" loading="lazy" />
           <div class="item-overlay"><span class="item-num">17</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',17)">
-          <img src="images/iad/8.svg" alt="Digital work 18" loading="lazy" />
+          <img src="images/iad/12.svg" alt="Digital work 18" loading="lazy" />
           <div class="item-overlay"><span class="item-num">18</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',18)">
-          <img src="images/iad/7.svg" alt="Digital work 19" loading="lazy" />
+          <img src="images/iad/11.svg" alt="Digital work 19" loading="lazy" />
           <div class="item-overlay"><span class="item-num">19</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',19)">
-          <img src="images/iad/6.svg" alt="Digital work 20" loading="lazy" />
+          <img src="images/iad/10.svg" alt="Digital work 20" loading="lazy" />
           <div class="item-overlay"><span class="item-num">20</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',20)">
-          <img src="images/iad/5.svg" alt="Digital work 21" loading="lazy" />
+          <img src="images/iad/9.svg" alt="Digital work 21" loading="lazy" />
           <div class="item-overlay"><span class="item-num">21</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',21)">
-          <img src="images/iad/4.svg" alt="Digital work 22" loading="lazy" />
+          <img src="images/iad/8.svg" alt="Digital work 22" loading="lazy" />
           <div class="item-overlay"><span class="item-num">22</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',22)">
-          <img src="images/iad/3.svg" alt="Digital work 23" loading="lazy" />
+          <img src="images/iad/7.svg" alt="Digital work 23" loading="lazy" />
           <div class="item-overlay"><span class="item-num">23</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',23)">
-          <img src="images/iad/2.svg" alt="Digital work 24" loading="lazy" />
+          <img src="images/iad/6.svg" alt="Digital work 24" loading="lazy" />
           <div class="item-overlay"><span class="item-num">24</span></div>
         </div>
         <div class="masonry-item" onclick="openLb('digital',24)">
-          <img src="images/iad/1.svg" alt="Digital work 25" loading="lazy" />
+          <img src="images/iad/5.svg" alt="Digital work 25" loading="lazy" />
           <div class="item-overlay"><span class="item-num">25</span></div>
+        </div>
+        <div class="masonry-item" onclick="openLb('digital',25)">
+          <img src="images/iad/4.svg" alt="Digital work 26" loading="lazy" />
+          <div class="item-overlay"><span class="item-num">26</span></div>
+        </div>
+        <div class="masonry-item" onclick="openLb('digital',26)">
+          <img src="images/iad/3.svg" alt="Digital work 27" loading="lazy" />
+          <div class="item-overlay"><span class="item-num">27</span></div>
+        </div>
+        <div class="masonry-item" onclick="openLb('digital',27)">
+          <img src="images/iad/2.svg" alt="Digital work 28" loading="lazy" />
+          <div class="item-overlay"><span class="item-num">28</span></div>
+        </div>
+        <div class="masonry-item" onclick="openLb('digital',28)">
+          <img src="images/iad/1.svg" alt="Digital work 29" loading="lazy" />
+          <div class="item-overlay"><span class="item-num">29</span></div>
         </div>
 
       </div>
@@ -659,11 +677,9 @@
       <div class="kyoto-title-card">
         <p class="ktc-eyebrow">Kyoto Creators Competition 2024 · Excerpts</p>
         <h2 class="ktc-title">Hope is a<br>waking dream</h2>
-        <p class="ktc-sub">An illustrated series exploring hope, memory, and the architecture of the unconscious.</p>
         <div class="ktc-meta">
           <span class="ktc-pill">Digital illustration</span>
           <span class="ktc-pill">Competition entry</span>
-          <span class="ktc-pill">10 works</span>
           <span class="ktc-pill">2024</span>
         </div>
       </div>
@@ -713,7 +729,9 @@
     /* ── Image sets ── */
     const sets = {
       digital: [
-        'images/iad/45.png','images/iad/44.png','images/iad/43.png',
+        'images/iad/COME A LITTLE CLOSER.png','images/iad/BREATHE OUT THE AIR.png',
+        'images/iad/45.png','images/iad/CHUNKING EXPRESS.png',
+        'images/iad/43.png','images/iad/SHARED DRINKS.png','images/iad/44.png',
         'images/iad/22.svg','images/iad/21.svg','images/iad/20.svg',
         'images/iad/19.svg','images/iad/18.svg','images/iad/17.svg',
         'images/iad/16.svg','images/iad/15.svg','images/iad/14.svg',
