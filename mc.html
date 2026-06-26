@@ -1,116 +1,577 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>elevynthdesign|MUSIC</title>
-    <link rel="stylesheet" href="mc.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>elevynthdesign | MUSIC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Barlow:ital,wght@0,300;0,400;0,600;1,300&family=Space+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      background-color: #07031b;
+      background-image: url('images/iad/bg.svg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #e8e4dc;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 2, 12, 0.80);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    :root {
+      --amber:    #C8960C;
+      --amber-lt: #E8B830;
+      --olive-dk: #2D3319;
+      --dim:      rgba(232,228,220,0.4);
+      --dimmer:   rgba(232,228,220,0.12);
+    }
+
+    /* ── LOGO ── */
+    .logo {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      text-decoration: none;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .logo:hover { opacity: 1; }
+    .logo-bar { width: 4px; height: 14px; background: #e8e4dc; border-radius: 1px; }
+    .logo-tri {
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid #e8e4dc;
+      margin-left: 2px;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 2rem 3rem;
+    }
+
+    /* Desktop: side by side */
+    .layout {
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+      width: 100%;
+      max-width: 960px;
+    }
+
+    /* ── LEFT COLUMN ── */
+    .left-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .left-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(232,228,220,0.35);
+      margin-bottom: 0.75rem;
+    }
+
+    .left-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--amber);
+      line-height: 0.95;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Track list */
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .track-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 0.5rem;
+      border-top: 0.5px solid rgba(232,228,220,0.08);
+      cursor: pointer;
+      transition: background 0.15s;
+      border-radius: 3px;
+    }
+    .track-row:last-child { border-bottom: 0.5px solid rgba(232,228,220,0.08); }
+    .track-row:hover { background: rgba(232,228,220,0.05); }
+    .track-row.active { background: rgba(200,150,12,0.08); }
+
+    .track-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: rgba(232,228,220,0.25);
+      width: 18px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .track-row.active .track-num { color: var(--amber); }
+
+    /* Playing indicator — three animated bars */
+    .now-playing-bars {
+      display: none;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+    .track-row.active.is-playing .now-playing-bars { display: flex; }
+    .track-row.active.is-playing .track-num { display: none; }
+
+    .npb {
+      width: 2px;
+      background: var(--amber);
+      border-radius: 1px;
+      animation: npb-bounce 0.8s ease-in-out infinite alternate;
+    }
+    .npb:nth-child(1) { height: 5px;  animation-delay: 0s; }
+    .npb:nth-child(2) { height: 10px; animation-delay: 0.2s; }
+    .npb:nth-child(3) { height: 7px;  animation-delay: 0.4s; }
+
+    @keyframes npb-bounce {
+      from { transform: scaleY(0.4); }
+      to   { transform: scaleY(1.1); }
+    }
+
+    .track-info { flex: 1; min-width: 0; }
+    .track-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: rgba(232,228,220,0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.15s;
+    }
+    .track-row.active .track-title { color: #e8e4dc; }
+    .track-row:hover .track-title  { color: rgba(232,228,220,0.85); }
+
+    /* ── RIGHT COLUMN — PLAYER CARD ── */
+    .right-col {
+      flex-shrink: 0;
+      width: 300px;
+    }
+
+    .player-card {
+      background: rgba(42, 50, 42, 0.75);
+      border-radius: 18px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 0.5px solid rgba(255,255,255,0.07);
+    }
+
+    /* Vinyl */
+    .vinyl-wrap {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+    #vinyl {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: block;
+      transition: filter 0.3s;
+    }
+    #vinyl.is-spinning {
+      animation: spin 3s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Track info */
+    .track-meta {
+      width: 100%;
+      padding: 0 0.25rem;
+    }
+    #title {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #e8e4dc;
+      margin-bottom: 0.2rem;
+    }
+    #artist {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: 0.78rem;
+      color: rgba(232,228,220,0.45);
+    }
+
+    /* Seek */
+    .seek-row {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    #seek {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 3px;
+      background: rgba(232,228,220,0.15);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    #seek::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #e8e4dc;
+      cursor: pointer;
+      margin-top: -4.5px;
+    }
+    #seek::-moz-range-thumb {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #e8e4dc;
+      border: none;
+      cursor: pointer;
+    }
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      color: rgba(232,228,220,0.35);
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .ctrl-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(232,228,220,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 50%;
+      transition: color 0.2s, background 0.2s;
+    }
+    .ctrl-btn:hover { color: #e8e4dc; background: rgba(232,228,220,0.08); }
+    .ctrl-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+    #playBtn {
+      width: 48px; height: 48px;
+      background: #e8e4dc;
+      color: #1a1a1a;
+      border-radius: 50%;
+      padding: 0;
+    }
+    #playBtn:hover { background: #fff; }
+    #playBtn svg { width: 22px; height: 22px; }
+
+    /* Like button */
+    .like-btn { color: rgba(232,228,220,0.4); }
+    .like-btn.is-liked { color: var(--amber); }
+    .like-btn svg { fill: none; stroke: currentColor; stroke-width: 2; }
+    .like-btn.is-liked svg { fill: currentColor; }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0 1.5rem;
+    }
+    .footer-home {
+      display: flex; align-items: center; gap: 2px;
+      text-decoration: none; opacity: 0.25; transition: opacity 0.2s;
+    }
+    .footer-home:hover { opacity: 0.6; }
+    .footer-bar { width: 4px; height: 14px; background: #e8e4dc; border-radius: 1px; }
+    .footer-tri {
+      width: 0; height: 0;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid #e8e4dc;
+      margin-left: 2px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .left-col { display: none; }
+      .layout { justify-content: center; }
+      .right-col { width: 290px; }
+    }
+    @media (max-width: 380px) {
+      .right-col { width: 100%; max-width: 290px; }
+    }
+  </style>
 </head>
 <body>
 
-   <header>
-    <a href="index.html">
-        <div class="logo-container">
-            <img src="images/black logo.svg" alt="Logo" class="logo">
-        </div>
-    </a>
-</header>
+  <a href="index.html" class="logo" aria-label="Home">
+    <div class="logo-bar"></div>
+    <div class="logo-bar"></div>
+    <div class="logo-tri"></div>
+  </a>
 
-     <main class="page">
-    <section class="player" aria-label="Music player">
-      <!-- Album art -->
-      <div class="cover-wrap">
-  <div class="vinyl-stage">
-    <img id="vinyl" class="vinyl" src="images/mc/1.svg" alt="Vinyl record">
+  <div class="page">
+    <div class="layout">
+
+      <!-- LEFT: heading + tracklist -->
+      <div class="left-col">
+        <p class="left-eyebrow">elevynthdesign · music composition</p>
+        <h1 class="left-heading">Music</h1>
+        <div class="tracklist" id="tracklist"></div>
+      </div>
+
+      <!-- RIGHT: player card -->
+      <div class="right-col">
+        <div class="player-card">
+
+          <div class="vinyl-wrap">
+            <img id="vinyl" src="images/mc/1.svg" alt="Vinyl record" />
+          </div>
+
+          <div class="track-meta">
+            <div id="title">encounter</div>
+            <div id="artist">evelyn stephen</div>
+          </div>
+
+          <div class="seek-row">
+            <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="Seek" />
+            <div class="time-row">
+              <span id="currentTime">0:00</span>
+              <span id="duration">0:00</span>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="ctrl-btn" id="prevBtn" aria-label="Previous">
+              <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6V6zm3.5 6 8.5 6V6l-8.5 6z"/></svg>
+            </button>
+            <button class="ctrl-btn" id="back10Btn" aria-label="Back 10 seconds">
+              <svg viewBox="0 0 24 24"><path d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8zm-1.1 11h-.85v-3.26l-1.01.31v-.69l1.77-.63h.09V16zm4.28-1.41c0 .32-.04.6-.12.82s-.2.42-.35.57-.33.26-.54.33-.44.1-.71.1-.49-.03-.7-.1-.39-.18-.54-.33-.27-.34-.36-.57-.13-.5-.13-.82v-.74c0-.32.04-.6.13-.82s.2-.42.35-.57.33-.26.54-.33.44-.1.71-.1.49.03.7.1.39.18.54.33.27.34.36.57.13.5.13.82v.74zm-.85-.86c0-.19-.02-.35-.05-.48s-.08-.23-.14-.31-.13-.14-.22-.17-.18-.05-.28-.05-.21.02-.29.05-.16.09-.22.17-.11.18-.14.31-.05.29-.05.48v.97c0 .19.02.35.05.49s.08.24.14.32.13.14.22.17.19.05.29.05.2-.02.28-.05.16-.09.22-.17.11-.19.14-.32.05-.3.05-.49v-.97z"/></svg>
+            </button>
+
+            <button class="ctrl-btn" id="playBtn" aria-label="Play">
+              <svg viewBox="0 0 24 24" id="playIcon">
+                <path d="M8 5v14l11-7L8 5z"/>
+              </svg>
+            </button>
+
+            <button class="ctrl-btn" id="fwd10Btn" aria-label="Forward 10 seconds">
+              <svg viewBox="0 0 24 24"><path d="M18 13c0 3.31-2.69 6-6 6s-6-2.69-6-6 2.69-6 6-6v4l5-5-5-5v4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8h-2zm-4.85 3h-.85v-3.26l-1.01.31v-.69l1.77-.63h.09V16zm4.28-1.41c0 .32-.04.6-.12.82s-.2.42-.35.57-.33.26-.54.33-.44.1-.71.1-.49-.03-.7-.1-.39-.18-.54-.33-.27-.34-.36-.57-.13-.5-.13-.82v-.74c0-.32.04-.6.13-.82s.2-.42.35-.57.33-.26.54-.33.44-.1.71-.1.49.03.7.1.39.18.54.33.27.34.36.57.13.5.13.82v.74zm-.85-.86c0-.19-.02-.35-.05-.48s-.08-.23-.14-.31-.13-.14-.22-.17-.18-.05-.28-.05-.21.02-.29.05-.16.09-.22.17-.11.18-.14.31-.05.29-.05.48v.97c0 .19.02.35.05.49s.08.24.14.32.13.14.22.17.19.05.29.05.2-.02.28-.05.16-.09.22-.17.11-.19.14-.32.05-.3.05-.49v-.97z"/></svg>
+            </button>
+
+            <button class="ctrl-btn" id="nextBtn" aria-label="Next">
+              <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2V6z"/></svg>
+            </button>
+          </div>
+
+          <button class="ctrl-btn like-btn" id="likeBtn" aria-label="Like" aria-pressed="false">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
 
+  <div class="page-footer">
+    <a href="index.html" class="footer-home" aria-label="Home">
+      <div class="footer-bar"></div>
+      <div class="footer-bar"></div>
+      <div class="footer-tri"></div>
+    </a>
+  </div>
 
-      <!-- Title row -->
-      <div class="meta-row">
-        <div class="meta">
-          <h1 id="title" class="title">encounter</h1>
-          <p id="artist" class="artist">evelyn stephen </p>
-        </div>
+  <audio id="audio" preload="metadata"></audio>
 
-        
-      </div>
+  <script>
+    const playlist = [
+      { title: "encounter",             artist: "evelyn stephen", src: "audio/encounter.mp3",   vinylImage: "images/mc/1.svg" },
+      { title: "missing",               artist: "evelyn stephen", src: "audio/missing.mp3",     vinylImage: "images/mc/2.svg" },
+      { title: "an ode to new drivers", artist: "evelyn stephen", src: "audio/aotnd.mp3",       vinylImage: "images/mc/3.svg" },
+      { title: "altostratus",           artist: "evelyn stephen", src: "audio/altostratus.mp3", vinylImage: "images/mc/4.svg" },
+      { title: "resolution",            artist: "evelyn stephen", src: "audio/resolution.mp3",  vinylImage: "images/mc/5.svg" },
+      { title: "cafe terrace at night", artist: "evelyn stephen", src: "audio/ctan.mp3",        vinylImage: "images/mc/6.svg" }
+    ];
 
-      <!-- Progress -->
-      <div class="progress">
-        <div class="time-row">
-          <span id="currentTime" class="time">0:00</span>
-          <span id="duration" class="time">0:00</span>
-        </div>
+    const audio          = document.getElementById("audio");
+    const titleEl        = document.getElementById("title");
+    const artistEl       = document.getElementById("artist");
+    const playBtn        = document.getElementById("playBtn");
+    const playIcon       = document.getElementById("playIcon");
+    const prevBtn        = document.getElementById("prevBtn");
+    const nextBtn        = document.getElementById("nextBtn");
+    const back10Btn      = document.getElementById("back10Btn");
+    const fwd10Btn       = document.getElementById("fwd10Btn");
+    const seek           = document.getElementById("seek");
+    const currentTimeEl  = document.getElementById("currentTime");
+    const durationEl     = document.getElementById("duration");
+    const vinyl          = document.getElementById("vinyl");
+    const likeBtn        = document.getElementById("likeBtn");
+    const tracklistEl    = document.getElementById("tracklist");
 
-        <input
-          id="seek"
-          class="seek"
-          type="range"
-          min="0"
-          max="100"
-          value="0"
-          step="0.1"
-          aria-label="Seek"
-        />
-      </div>
+    let index = 0, isSeeking = false, isPlaying = false;
+    let liked = playlist.map(() => false);
 
-      <!-- Controls -->
-      <div class="controls" aria-label="Playback controls">
-        <button id="prevBtn" class="icon-btn" type="button" aria-label="Previous track">
-          <!-- Previous -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 7h2v10H6V7zm4.5 5 9-6v12l-9-6z"/>
-          </svg>
-        </button>
+    function formatTime(s) {
+      if (!Number.isFinite(s)) return "0:00";
+      return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+    }
 
-        <button id="back10Btn" class="icon-btn small" type="button" aria-label="Back 10 seconds">
-          <!-- Rotate left -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 5V2L7 6l5 4V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/>
-          </svg>
-          
-        </button>
+    function setPlayIcon(playing) {
+      isPlaying = playing;
+      playIcon.innerHTML = playing
+        ? `<path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z"/>`
+        : `<path d="M8 5v14l11-7L8 5z"/>`;
+      playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+      document.querySelectorAll('.track-row').forEach((row, i) => {
+        row.classList.toggle('is-playing', playing && i === index);
+      });
+    }
 
-        <button id="playBtn" class="play-btn" type="button" aria-label="Play">
-          <!-- Play/Pause icon swapped in JS -->
-          <svg id="playIcon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 5v14l11-7L8 5z"/>
-          </svg>
-        </button>
+    function buildTracklist() {
+      tracklistEl.innerHTML = '';
+      playlist.forEach((track, i) => {
+        const row = document.createElement('div');
+        row.className = 'track-row' + (i === index ? ' active' : '');
+        row.setAttribute('role', 'button');
+        row.setAttribute('tabindex', '0');
+        row.setAttribute('aria-label', `Play ${track.title}`);
+        row.innerHTML = `
+          <span class="track-num">${String(i + 1).padStart(2, '0')}</span>
+          <div class="now-playing-bars" aria-hidden="true">
+            <div class="npb"></div><div class="npb"></div><div class="npb"></div>
+          </div>
+          <div class="track-info">
+            <div class="track-title">${track.title}</div>
+          </div>`;
+        row.addEventListener('click', () => loadTrack(i, true));
+        row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') loadTrack(i, true); });
+        tracklistEl.appendChild(row);
+      });
+    }
 
-        <button id="fwd10Btn" class="icon-btn small" type="button" aria-label="Forward 10 seconds">
-          <!-- Rotate right -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 5V2l5 4-5 4V7c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6h2c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8z"/>
-          </svg>
-          
-        </button>
+    function updateTracklistActive() {
+      document.querySelectorAll('.track-row').forEach((row, i) => {
+        row.classList.toggle('active', i === index);
+        row.classList.toggle('is-playing', isPlaying && i === index);
+      });
+    }
 
-        <button id="nextBtn" class="icon-btn" type="button" aria-label="Next track">
-          <!-- Next -->
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M16 7h2v10h-2V7zM7 6l9 6-9 6V6z"/>
-          </svg>
-        </button>
+    function loadTrack(newIndex, autoplay = false) {
+      index = ((newIndex % playlist.length) + playlist.length) % playlist.length;
+      const track = playlist[index];
+      titleEl.textContent  = track.title;
+      artistEl.textContent = track.artist;
+      vinyl.src = track.vinylImage || "images/mc/1.svg";
+      audio.src = track.src;
+      audio.load();
+      likeBtn.classList.toggle("is-liked", liked[index]);
+      likeBtn.setAttribute("aria-pressed", liked[index] ? "true" : "false");
+      seek.value = 0;
+      currentTimeEl.textContent = "0:00";
+      durationEl.textContent    = "0:00";
+      setPlayIcon(false);
+      updateTracklistActive();
+      if (autoplay) audio.play().catch(() => {});
+    }
 
-       
+    playBtn.addEventListener("click", () => {
+      if (audio.paused) audio.play().catch(() => {});
+      else audio.pause();
+    });
 
-      </div>
+    audio.addEventListener("play",  () => { setPlayIcon(true);  vinyl.classList.add("is-spinning"); });
+    audio.addEventListener("pause", () => { setPlayIcon(false); vinyl.classList.remove("is-spinning"); });
+    audio.addEventListener("ended", () => { vinyl.classList.remove("is-spinning"); loadTrack(index + 1, true); });
 
-    
+    prevBtn.addEventListener("click",  () => loadTrack(index - 1, true));
+    nextBtn.addEventListener("click",  () => loadTrack(index + 1, true));
+    back10Btn.addEventListener("click", () => { audio.currentTime = Math.max(0, audio.currentTime - 10); });
+    fwd10Btn.addEventListener("click",  () => { audio.currentTime = Math.min(audio.duration || audio.currentTime + 10, audio.currentTime + 10); });
 
-      <!-- Actual audio element (hidden) -->
-      <audio id="audio" preload="metadata"></audio>
-    </section>
-  </main>
+    seek.addEventListener("input", () => {
+      isSeeking = true;
+      currentTimeEl.textContent = formatTime((audio.duration || 0) * Number(seek.value) / 100);
+    });
+    seek.addEventListener("change", () => {
+      audio.currentTime = (audio.duration || 0) * Number(seek.value) / 100;
+      isSeeking = false;
+    });
+    audio.addEventListener("timeupdate", () => {
+      if (!audio.duration) return;
+      durationEl.textContent = formatTime(audio.duration);
+      if (!isSeeking) {
+        seek.value = String((audio.currentTime / audio.duration) * 100);
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+      }
+    });
 
-  <script src="mc.js"></script>
-   
+    likeBtn.addEventListener("click", () => {
+      liked[index] = !liked[index];
+      likeBtn.classList.toggle("is-liked", liked[index]);
+      likeBtn.setAttribute("aria-pressed", liked[index] ? "true" : "false");
+    });
 
-    
-
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => { buildTracklist(); loadTrack(0, false); });
+    } else {
+      buildTracklist(); loadTrack(0, false);
+    }
+  </script>
 </body>
 </html>
-
-
