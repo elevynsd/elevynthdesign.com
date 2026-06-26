@@ -49,9 +49,8 @@
       background: var(--off-white);
       width: 88%;
       max-width: 1100px;
-      margin: 0 auto;
-      box-shadow: 0 0 80px rgba(0,0,0,0.5);
-      min-height: 100vh;
+      margin: 60px auto 60px;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.5);
     }
 
     /* ── LOGO ── */
@@ -364,6 +363,89 @@
       margin-top: 0.5rem;
     }
 
+    /* ── OTHER PROJECTS CAROUSEL ── */
+    .other-wrap {
+      padding: 2.5rem 3rem 4rem;
+    }
+    .other-carousel {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .oc-stage {
+      position: relative;
+      overflow: hidden;
+      background: rgba(26,18,0,0.04);
+      cursor: pointer;
+    }
+    .oc-slide {
+      display: none;
+    }
+    .oc-slide.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    .oc-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .oc-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      color: rgba(26,18,0,0.2);
+      text-transform: uppercase;
+    }
+    .oc-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0 1rem;
+      border-bottom: 0.5px solid rgba(26,18,0,0.1);
+    }
+    .oc-counter {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: rgba(26,18,0,0.35);
+    }
+    .oc-btns { display: flex; gap: 6px; }
+    .oc-btn {
+      background: none;
+      border: 0.5px solid rgba(26,18,0,0.18);
+      color: rgba(26,18,0,0.45);
+      width: 34px; height: 34px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .oc-btn:hover:not(:disabled) { border-color: var(--olive-dk); color: var(--olive-dk); }
+    .oc-btn:disabled { opacity: 0.2; cursor: default; }
+    .oc-desc {
+      padding: 1.25rem 0 0;
+      min-height: 3.5rem;
+    }
+    .oc-desc-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--olive-dk);
+      margin-bottom: 0.3rem;
+    }
+    .oc-desc-text {
+      font-size: 0.78rem;
+      color: rgba(26,18,0,0.55);
+      line-height: 1.6;
+    }
+
     /* ── LIGHTBOX ── */
     .lb-overlay {
       display: none;
@@ -485,6 +567,9 @@
         <button class="tab-btn" onclick="switchTab('kyoto')" id="tab-kyoto">
           Hope is a waking dream <span class="tab-count">10</span>
         </button>
+        <button class="tab-btn" onclick="switchTab('other')" id="tab-other">
+          Other projects
+        </button>
       </div>
     </div>
 
@@ -506,7 +591,7 @@
             <div class="item-overlay"><span class="item-num">03</span></div>
           </div>
           <div class="masonry-item" onclick="openLb('digital',3)">
-            <img src="images/iad/SHARED DRINKS.png" alt="Shared drinks" loading="lazy" />
+            <img src="images/iad/43.png" alt="Digital work 43" loading="lazy" />
             <div class="item-overlay"><span class="item-num">04</span></div>
           </div>
           <div class="masonry-item" onclick="openLb('digital',4)">
@@ -518,7 +603,7 @@
             <div class="item-overlay"><span class="item-num">06</span></div>
           </div>
           <div class="masonry-item" onclick="openLb('digital',6)">
-            <img src="images/iad/43.png" alt="Digital work 43" loading="lazy" />
+            <img src="images/iad/SHARED DRINKS.png" alt="Shared drinks" loading="lazy" />
             <div class="item-overlay"><span class="item-num">07</span></div>
           </div>
           <div class="masonry-item" onclick="openLb('digital',7)">
@@ -696,6 +781,25 @@
       </div>
     </div>
 
+    <!-- ══ TAB: OTHER PROJECTS ══════════════════════════════════ -->
+    <div class="tab-panel" id="panel-other">
+      <div class="other-wrap">
+        <div class="other-carousel">
+          <div class="oc-stage" id="oc-stage">
+            <div class="oc-empty" id="oc-empty">Coming soon</div>
+          </div>
+          <div class="oc-nav">
+            <span class="oc-counter" id="oc-counter"></span>
+            <div class="oc-btns">
+              <button class="oc-btn" id="oc-prev" onclick="moveOther(-1)" disabled aria-label="Previous">←</button>
+              <button class="oc-btn" id="oc-next" onclick="moveOther(1)" disabled aria-label="Next">→</button>
+            </div>
+          </div>
+          <div class="oc-desc" id="oc-desc"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- FOOTER -->
     <div class="page-footer">
       <a href="index.html" class="footer-home" aria-label="Home">
@@ -722,8 +826,8 @@
     const sets = {
       digital: [
         'images/iad/COME A LITTLE CLOSER.png','images/iad/BREATHE OUT THE AIR.png',
-        'images/iad/CHUNKING EXPRESS.png','images/iad/SHARED DRINKS.png',
-        'images/iad/45.png','images/iad/44.png','images/iad/43.png',
+        'images/iad/CHUNKING EXPRESS.png','images/iad/43.png',
+        'images/iad/45.png','images/iad/44.png','images/iad/SHARED DRINKS.png',
         'images/iad/22.svg','images/iad/21.svg','images/iad/20.svg',
         'images/iad/19.svg','images/iad/18.svg','images/iad/17.svg',
         'images/iad/16.svg','images/iad/15.svg','images/iad/14.svg',
@@ -820,6 +924,61 @@
     function lbClickOutside(e) {
       if (e.target === document.getElementById('lb')) closeLb();
     }
+
+    /* ── Other projects carousel ── */
+    const otherSlides = [
+      // { src: 'images/other/1.jpg', title: 'Project title', desc: 'Description text.' },
+    ];
+    let otherIdx = 0;
+
+    function buildOther() {
+      const stage = document.getElementById('oc-stage');
+      const empty = document.getElementById('oc-empty');
+      if (otherSlides.length === 0) { empty.style.display = 'flex'; return; }
+      empty.style.display = 'none';
+      otherSlides.forEach((s, i) => {
+        const d = document.createElement('div');
+        d.className = 'oc-slide' + (i === 0 ? ' active' : '');
+        const img = document.createElement('img');
+        img.src = s.src; img.alt = s.title || ('Slide ' + (i + 1)); img.loading = 'lazy';
+        d.appendChild(img);
+        stage.appendChild(d);
+      });
+      updateOther();
+    }
+
+    function updateOther() {
+      const slides = document.querySelectorAll('.oc-slide');
+      slides.forEach((s, i) => s.classList.toggle('active', i === otherIdx));
+      const s = otherSlides[otherIdx] || {};
+      document.getElementById('oc-counter').textContent = otherSlides.length ? (otherIdx + 1) + ' / ' + otherSlides.length : '';
+      document.getElementById('oc-prev').disabled = otherIdx === 0;
+      document.getElementById('oc-next').disabled = otherIdx === otherSlides.length - 1;
+      const desc = document.getElementById('oc-desc');
+      desc.innerHTML = s.title ? `<p class="oc-desc-title">${s.title}</p><p class="oc-desc-text">${s.desc || ''}</p>` : '';
+    }
+
+    function moveOther(dir) {
+      otherIdx = Math.max(0, Math.min(otherSlides.length - 1, otherIdx + dir));
+      updateOther();
+    }
+
+    /* Click left/right half to navigate */
+    document.getElementById('oc-stage').addEventListener('click', e => {
+      if (!otherSlides.length) return;
+      const r = e.currentTarget.getBoundingClientRect();
+      moveOther(e.clientX - r.left < r.width / 2 ? -1 : 1);
+    });
+
+    /* Touch swipe */
+    let ocTouchX = 0;
+    document.getElementById('oc-stage').addEventListener('touchstart', e => { ocTouchX = e.touches[0].clientX; }, { passive: true });
+    document.getElementById('oc-stage').addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - ocTouchX;
+      if (Math.abs(dx) > 30) moveOther(dx < 0 ? 1 : -1);
+    });
+
+    buildOther();
 
     /* ── Keyboard ── */
     document.addEventListener('keydown', e => {
