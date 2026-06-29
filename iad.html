@@ -129,6 +129,7 @@
       border-bottom: 2px solid transparent;
       margin-bottom: -1px;
       transition: color 0.2s, border-color 0.2s;
+      white-space: nowrap;
     }
     .tab-btn:hover { color: var(--olive-dk); }
     .tab-btn.active {
@@ -148,6 +149,30 @@
     .tab-btn.active .tab-count {
       background: rgba(200,150,12,0.15);
       color: var(--amber);
+    }
+    /* Mobile tab dropdown */
+    .tab-select {
+      display: none;
+      width: 100%;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--olive-dk);
+      background: var(--off-white);
+      border: none;
+      border-bottom: 2px solid var(--amber);
+      padding: 0.85rem 0;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%232D3319'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0 center;
+    }
+    @media (max-width: 640px) {
+      .tabs-inner { display: none; }
+      .tab-select { display: block; }
     }
 
     /* ── TAB PANELS ── */
@@ -384,25 +409,15 @@
 
     /* Media column */
     .proj-media { position: relative; }
-    .pm-viewer { background: rgba(26,18,0,0.05); overflow: hidden; }
-    .pm-item { display: none; }
-    .pm-item.active { display: block; animation: fadeIn 0.2s ease; }
-    .pm-item img { width: 100%; height: auto; display: block; }
-    .pm-item video { width: 100%; height: auto; display: block; outline: none; }
-    .pm-dots {
-      display: flex;
-      gap: 6px;
-      margin-top: 0.75rem;
+    .pm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
     }
-    .pm-dot {
-      flex: 1;
-      height: 2px;
-      background: rgba(26,18,0,0.12);
-      border-radius: 1px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .pm-dot.active { background: var(--olive-dk); }
+    .pm-grid-item { overflow: hidden; background: rgba(26,18,0,0.05); }
+    .pm-grid-item img { width: 100%; height: auto; display: block; cursor: zoom-in; transition: opacity 0.2s; }
+    .pm-grid-item img:hover { opacity: 0.82; }
+    .pm-grid-item video { width: 100%; height: auto; display: block; outline: none; }
 
     /* Text column */
     .proj-text { padding-top: 0.25rem; }
@@ -581,7 +596,7 @@
 
     @media (max-width: 640px) {
       .page-header, .tabs-bar { padding-left: 1.25rem; padding-right: 1.25rem; }
-      .masonry-wrap, .sketches-wrap, .kyoto-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .masonry-wrap, .sketches-wrap, .kyoto-wrap, .other-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
     }
   </style>
 </head>
@@ -603,6 +618,14 @@
 
     <!-- TABS -->
     <div class="tabs-bar">
+      <!-- mobile dropdown -->
+      <select class="tab-select" onchange="switchTab(this.value)">
+        <option value="digital">Completed works (29)</option>
+        <option value="sketches">Sketches (10)</option>
+        <option value="kyoto">Hope is a waking dream (10)</option>
+        <option value="other">Other projects</option>
+      </select>
+      <!-- desktop tab strip -->
       <div class="tabs-inner">
         <button class="tab-btn active" onclick="switchTab('digital')" id="tab-digital">
           Completed works <span class="tab-count">29</span>
@@ -839,25 +862,19 @@
 
                 <!-- Media -->
                 <div class="proj-media">
-                  <div class="pm-viewer">
-                    <div class="pm-item active" data-proj="0">
-                      <img src="images/other/dt1.png" alt="Discarded Toast - app screenshot" loading="lazy" />
+                  <div class="pm-grid">
+                    <div class="pm-grid-item">
+                      <img src="images/other/dt1.png" alt="Discarded Toast - app screenshot" loading="lazy" onclick="openLb('proj0',0)" />
                     </div>
-                    <div class="pm-item" data-proj="0">
-                      <img src="images/other/dt2.png" alt="Discarded Toast - second screenshot" loading="lazy" />
+                    <div class="pm-grid-item">
+                      <img src="images/other/dt2.png" alt="Discarded Toast - second screenshot" loading="lazy" onclick="openLb('proj0',1)" />
                     </div>
-                    <div class="pm-item" data-proj="0">
-                      <img src="images/other/dt3.jpg" alt="Discarded Toast - artwork WIP" loading="lazy" />
+                    <div class="pm-grid-item">
+                      <img src="images/other/dt3.jpg" alt="Discarded Toast - artwork WIP" loading="lazy" onclick="openLb('proj0',2)" />
                     </div>
-                    <div class="pm-item" data-proj="0">
-                      <video src="videos/dt-demo.mp4" controls playsinline></video>
+                    <div class="pm-grid-item">
+                      <video src="videos/dt-demo.mp4" autoplay muted loop playsinline></video>
                     </div>
-                  </div>
-                  <div class="pm-dots" id="pm-dots-0">
-                    <div class="pm-dot active" onclick="goMedia(0,0)"></div>
-                    <div class="pm-dot" onclick="goMedia(0,1)"></div>
-                    <div class="pm-dot" onclick="goMedia(0,2)"></div>
-                    <div class="pm-dot" onclick="goMedia(0,3)"></div>
                   </div>
                 </div>
 
@@ -946,12 +963,20 @@
       ]
     };
 
+    sets.proj0 = [
+      'images/other/dt1.png',
+      'images/other/dt2.png',
+      'images/other/dt3.jpg'
+    ];
+
     /* ── Tabs ── */
     function switchTab(name) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.getElementById('tab-' + name).classList.add('active');
       document.getElementById('panel-' + name).classList.add('active');
+      const sel = document.querySelector('.tab-select');
+      if (sel) sel.value = name;
     }
 
     /* ── Kyoto carousel ── */
@@ -1024,8 +1049,6 @@
     const projSlides = document.querySelectorAll('.proj-slide');
     const projTotal  = projSlides.length;
     let projIdx = 0;
-    // track current media item per project
-    const mediaIdx = Array.from({length: projTotal}, () => 0);
 
     function moveProj(dir) {
       projIdx = Math.max(0, Math.min(projTotal - 1, projIdx + dir));
@@ -1033,19 +1056,6 @@
       document.getElementById('proj-counter').textContent = `${projIdx + 1} / ${projTotal}`;
       document.getElementById('proj-prev').disabled = projIdx === 0;
       document.getElementById('proj-next').disabled = projIdx === projTotal - 1;
-    }
-
-    function goMedia(proj, idx) {
-      mediaIdx[proj] = idx;
-      const items = document.querySelectorAll(`.pm-item[data-proj="${proj}"]`);
-      items.forEach((el, i) => el.classList.toggle('active', i === idx));
-      const dots = document.querySelectorAll(`#pm-dots-${proj} .pm-dot`);
-      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      // pause any videos in inactive items
-      items.forEach((el, i) => {
-        const v = el.querySelector('video');
-        if (v && i !== idx) v.pause();
-      });
     }
 
     /* Swipe between projects */
