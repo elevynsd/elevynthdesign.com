@@ -291,7 +291,7 @@
       color: rgba(255,255,255,0.45);
     }
 
-    /* Kyoto carousel — constrained width, no lightbox */
+    /* Kyoto carousel - constrained width, no lightbox */
     .kyoto-carousel {
       max-width: 600px;
       margin: 0 auto;
@@ -364,58 +364,121 @@
       margin-top: 0.5rem;
     }
 
-    /* ── OTHER PROJECTS CAROUSEL ── */
-    .other-wrap {
-      padding: 2.5rem 3rem 4rem;
-    }
-    .other-carousel {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .oc-stage {
-      position: relative;
-      overflow: hidden;
-      background: rgba(26,18,0,0.04);
-      cursor: pointer;
-    }
-    .oc-slide {
-      display: none;
-    }
-    .oc-slide.active {
-      display: block;
-      animation: fadeIn 0.25s ease;
-    }
-    .oc-slide img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .oc-empty {
+    /* ── OTHER PROJECTS ── */
+    .other-wrap { padding: 2.5rem 3rem 4rem; }
+
+    .proj-carousel { position: relative; overflow: hidden; }
+    .proj-slides {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 320px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
-      color: rgba(26,18,0,0.2);
-      text-transform: uppercase;
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
     }
-    .oc-nav {
+    .proj-slide { flex: 0 0 100%; min-width: 0; }
+
+    .proj-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 640px) { .proj-card { grid-template-columns: 1fr; } }
+
+    /* Media column */
+    .proj-media { position: relative; }
+    .pm-viewer { background: rgba(26,18,0,0.05); overflow: hidden; }
+    .pm-item { display: none; }
+    .pm-item.active { display: block; animation: fadeIn 0.2s ease; }
+    .pm-item img { width: 100%; height: auto; display: block; }
+    .pm-item video { width: 100%; height: auto; display: block; outline: none; }
+    .pm-dots {
+      display: flex;
+      gap: 6px;
+      margin-top: 0.75rem;
+    }
+    .pm-dot {
+      flex: 1;
+      height: 2px;
+      background: rgba(26,18,0,0.12);
+      border-radius: 1px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pm-dot.active { background: var(--olive-dk); }
+
+    /* Text column */
+    .proj-text { padding-top: 0.25rem; }
+    .proj-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(26,18,0,0.35);
+      margin-bottom: 0.6rem;
+    }
+    .proj-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--olive-dk);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.25rem;
+    }
+    .proj-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 0.5px solid rgba(26,18,0,0.2);
+      padding: 3px 10px;
+      border-radius: 10px;
+      color: rgba(26,18,0,0.45);
+    }
+    .proj-desc {
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: rgba(26,18,0,0.6);
+      margin-bottom: 1.5rem;
+    }
+    .proj-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--olive-dk);
+      border-bottom: 1px solid rgba(26,18,0,0.25);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .proj-link:hover { color: var(--amber); border-color: var(--amber); }
+
+    /* Project nav */
+    .proj-nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.9rem 0 1rem;
-      border-bottom: 0.5px solid rgba(26,18,0,0.1);
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 0.5px solid rgba(26,18,0,0.1);
     }
-    .oc-counter {
+    .proj-counter {
       font-family: 'Space Mono', monospace;
       font-size: 0.6rem;
       letter-spacing: 0.1em;
       color: rgba(26,18,0,0.35);
     }
-    .oc-btns { display: flex; gap: 6px; }
-    .oc-btn {
+    .proj-btns { display: flex; gap: 6px; }
+    .proj-btn {
       background: none;
       border: 0.5px solid rgba(26,18,0,0.18);
       color: rgba(26,18,0,0.45);
@@ -426,26 +489,8 @@
       display: flex; align-items: center; justify-content: center;
       transition: all 0.2s;
     }
-    .oc-btn:hover:not(:disabled) { border-color: var(--olive-dk); color: var(--olive-dk); }
-    .oc-btn:disabled { opacity: 0.2; cursor: default; }
-    .oc-desc {
-      padding: 1.25rem 0 0;
-      min-height: 3.5rem;
-    }
-    .oc-desc-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--olive-dk);
-      margin-bottom: 0.3rem;
-    }
-    .oc-desc-text {
-      font-size: 0.78rem;
-      color: rgba(26,18,0,0.55);
-      line-height: 1.6;
-    }
+    .proj-btn:hover:not(:disabled) { border-color: var(--olive-dk); color: var(--olive-dk); }
+    .proj-btn:disabled { opacity: 0.2; cursor: default; }
 
     /* ── LIGHTBOX ── */
     .lb-overlay {
@@ -764,7 +809,7 @@
 
         <div class="kyoto-carousel">
           <div class="kyoto-main-img">
-            <img id="kyoto-main" src="images/iad/42.svg" alt="Hope is a waking dream — 1" />
+            <img id="kyoto-main" src="images/iad/42.svg" alt="Hope is a waking dream - 1" />
           </div>
 
           <div class="kyoto-nav">
@@ -785,18 +830,67 @@
     <!-- ══ TAB: OTHER PROJECTS ══════════════════════════════════ -->
     <div class="tab-panel" id="panel-other">
       <div class="other-wrap">
-        <div class="other-carousel">
-          <div class="oc-stage" id="oc-stage">
-            <div class="oc-empty" id="oc-empty">Coming soon</div>
-          </div>
-          <div class="oc-nav">
-            <span class="oc-counter" id="oc-counter"></span>
-            <div class="oc-btns">
-              <button class="oc-btn" id="oc-prev" onclick="moveOther(-1)" disabled aria-label="Previous">←</button>
-              <button class="oc-btn" id="oc-next" onclick="moveOther(1)" disabled aria-label="Next">→</button>
+        <div class="proj-carousel">
+          <div class="proj-slides" id="proj-slides">
+
+            <!-- PROJECT 1: Discarded Toast -->
+            <div class="proj-slide">
+              <div class="proj-card">
+
+                <!-- Media -->
+                <div class="proj-media">
+                  <div class="pm-viewer">
+                    <div class="pm-item active" data-proj="0">
+                      <img src="images/other/dt1.png" alt="Discarded Toast - app screenshot" loading="lazy" />
+                    </div>
+                    <div class="pm-item" data-proj="0">
+                      <img src="images/other/dt2.png" alt="Discarded Toast - second screenshot" loading="lazy" />
+                    </div>
+                    <div class="pm-item" data-proj="0">
+                      <img src="images/other/dt3.jpg" alt="Discarded Toast - artwork WIP" loading="lazy" />
+                    </div>
+                    <div class="pm-item" data-proj="0">
+                      <video src="videos/dt-demo.mp4" controls playsinline></video>
+                    </div>
+                  </div>
+                  <div class="pm-dots" id="pm-dots-0">
+                    <div class="pm-dot active" onclick="goMedia(0,0)"></div>
+                    <div class="pm-dot" onclick="goMedia(0,1)"></div>
+                    <div class="pm-dot" onclick="goMedia(0,2)"></div>
+                    <div class="pm-dot" onclick="goMedia(0,3)"></div>
+                  </div>
+                </div>
+
+                <!-- Text -->
+                <div class="proj-text">
+                  <p class="proj-eyebrow">Personal project · 2026</p>
+                  <h2 class="proj-title">Discarded<br>Toast</h2>
+                  <div class="proj-tags">
+                    <span class="proj-tag">Web app</span>
+                    <span class="proj-tag">UX design</span>
+                    <span class="proj-tag">Illustration</span>
+                    <span class="proj-tag">React</span>
+                  </div>
+                  <p class="proj-desc">
+                    A mood-based digital diary app built for fun. On good days you write a <em>happy toast</em> - a small note delivered back to you on another good day as a reminder of what's already been. On harder days you write a <em>hopeful toast</em>, sent forward to a day that needs it from a version of yourself who was also finding their feet.<br><br>
+                    Private toasts are yours alone. Public ones appear on a shared wall, completely anonymously.
+                  </p>
+                  <a class="proj-link" href="discarded-toast/index.html" target="_blank">Open app ↗</a>
+                </div>
+
+              </div>
             </div>
+            <!-- add more .proj-slide blocks here for future projects -->
+
           </div>
-          <div class="oc-desc" id="oc-desc"></div>
+        </div>
+
+        <div class="proj-nav">
+          <span class="proj-counter" id="proj-counter">1 / 1</span>
+          <div class="proj-btns">
+            <button class="proj-btn" id="proj-prev" onclick="moveProj(-1)" disabled aria-label="Previous project">←</button>
+            <button class="proj-btn" id="proj-next" onclick="moveProj(1)" disabled aria-label="Next project">→</button>
+          </div>
         </div>
       </div>
     </div>
@@ -926,60 +1020,46 @@
       if (e.target === document.getElementById('lb')) closeLb();
     }
 
-    /* ── Other projects carousel ── */
-    const otherSlides = [
-      // { src: 'images/other/1.jpg', title: 'Project title', desc: 'Description text.' },
-    ];
-    let otherIdx = 0;
+    /* ── Other projects ── */
+    const projSlides = document.querySelectorAll('.proj-slide');
+    const projTotal  = projSlides.length;
+    let projIdx = 0;
+    // track current media item per project
+    const mediaIdx = Array.from({length: projTotal}, () => 0);
 
-    function buildOther() {
-      const stage = document.getElementById('oc-stage');
-      const empty = document.getElementById('oc-empty');
-      if (otherSlides.length === 0) { empty.style.display = 'flex'; return; }
-      empty.style.display = 'none';
-      otherSlides.forEach((s, i) => {
-        const d = document.createElement('div');
-        d.className = 'oc-slide' + (i === 0 ? ' active' : '');
-        const img = document.createElement('img');
-        img.src = s.src; img.alt = s.title || ('Slide ' + (i + 1)); img.loading = 'lazy';
-        d.appendChild(img);
-        stage.appendChild(d);
+    function moveProj(dir) {
+      projIdx = Math.max(0, Math.min(projTotal - 1, projIdx + dir));
+      document.getElementById('proj-slides').style.transform = `translateX(-${projIdx * 100}%)`;
+      document.getElementById('proj-counter').textContent = `${projIdx + 1} / ${projTotal}`;
+      document.getElementById('proj-prev').disabled = projIdx === 0;
+      document.getElementById('proj-next').disabled = projIdx === projTotal - 1;
+    }
+
+    function goMedia(proj, idx) {
+      mediaIdx[proj] = idx;
+      const items = document.querySelectorAll(`.pm-item[data-proj="${proj}"]`);
+      items.forEach((el, i) => el.classList.toggle('active', i === idx));
+      const dots = document.querySelectorAll(`#pm-dots-${proj} .pm-dot`);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      // pause any videos in inactive items
+      items.forEach((el, i) => {
+        const v = el.querySelector('video');
+        if (v && i !== idx) v.pause();
       });
-      updateOther();
     }
 
-    function updateOther() {
-      const slides = document.querySelectorAll('.oc-slide');
-      slides.forEach((s, i) => s.classList.toggle('active', i === otherIdx));
-      const s = otherSlides[otherIdx] || {};
-      document.getElementById('oc-counter').textContent = otherSlides.length ? (otherIdx + 1) + ' / ' + otherSlides.length : '';
-      document.getElementById('oc-prev').disabled = otherIdx === 0;
-      document.getElementById('oc-next').disabled = otherIdx === otherSlides.length - 1;
-      const desc = document.getElementById('oc-desc');
-      desc.innerHTML = s.title ? `<p class="oc-desc-title">${s.title}</p><p class="oc-desc-text">${s.desc || ''}</p>` : '';
-    }
-
-    function moveOther(dir) {
-      otherIdx = Math.max(0, Math.min(otherSlides.length - 1, otherIdx + dir));
-      updateOther();
-    }
-
-    /* Click left/right half to navigate */
-    document.getElementById('oc-stage').addEventListener('click', e => {
-      if (!otherSlides.length) return;
-      const r = e.currentTarget.getBoundingClientRect();
-      moveOther(e.clientX - r.left < r.width / 2 ? -1 : 1);
+    /* Swipe between projects */
+    let projTouchX = 0;
+    const projCarousel = document.querySelector('.proj-carousel');
+    projCarousel.addEventListener('touchstart', e => { projTouchX = e.touches[0].clientX; }, { passive: true });
+    projCarousel.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - projTouchX;
+      if (Math.abs(dx) > 40) moveProj(dx < 0 ? 1 : -1);
     });
 
-    /* Touch swipe */
-    let ocTouchX = 0;
-    document.getElementById('oc-stage').addEventListener('touchstart', e => { ocTouchX = e.touches[0].clientX; }, { passive: true });
-    document.getElementById('oc-stage').addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - ocTouchX;
-      if (Math.abs(dx) > 30) moveOther(dx < 0 ? 1 : -1);
-    });
-
-    buildOther();
+    // init counter
+    document.getElementById('proj-counter').textContent = `1 / ${projTotal}`;
+    document.getElementById('proj-next').disabled = projTotal <= 1;
 
     /* ── Keyboard ── */
     document.addEventListener('keydown', e => {
