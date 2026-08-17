@@ -216,6 +216,92 @@
       color: rgba(255,255,255,0.85);
     }
 
+    /* ─── ABOUT ME ───────────────────────────────────────────── */
+    .about-section {
+      padding: 2rem 3rem 0;
+    }
+    .about-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--olive-md);
+      margin-bottom: 0.6rem;
+    }
+    .about-text {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: rgba(26,18,0,0.65);
+      max-width: 680px;
+    }
+    .about-text p + p { margin-top: 0.9rem; }
+    .about-expand-btn {
+      display: none;
+      margin-top: 0.6rem;
+      background: none;
+      border: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--olive-md);
+      cursor: pointer;
+      padding: 0;
+    }
+    @media (max-width: 600px) {
+      .about-section { padding: 1.5rem 1.25rem 0; }
+      .about-text { display: none; }
+      .about-expand-btn { display: inline-block; }
+    }
+    /* About lightbox (mobile) */
+    .about-lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,8,0,0.85);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .about-lb.open { display: flex; }
+    .about-lb-box {
+      background: var(--off-white, #F5F2EC);
+      max-width: 480px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem 1.75rem;
+      position: relative;
+      border-radius: 2px;
+    }
+    .about-lb-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--olive-md);
+      margin-bottom: 0.75rem;
+    }
+    .about-lb-text {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: rgba(26,18,0,0.7);
+    }
+    .about-lb-text p + p { margin-top: 1rem; }
+    .about-lb-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: none;
+      border: 0.5px solid rgba(26,18,0,0.2);
+      color: rgba(26,18,0,0.5);
+      width: 32px; height: 32px;
+      border-radius: 2px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
     /* ─── MAP + SKILLS ROW ───────────────────────────────────── */
     .map-skills-row {
       display: grid;
@@ -240,8 +326,8 @@
     .map-placeholder img {
       flex: 1;
       min-height: 0;
-      width: 100%;
-      max-width: 520px;
+      width: 80%;
+      max-width: 380px;
       object-fit: contain;
       object-position: center;
       opacity: 0.85;
@@ -646,6 +732,39 @@
       color: #aaa;
     }
     .lb-divider { height: 1px; background: #e0dbd0; margin: 0.5rem 0; }
+    .lb-entry-desc {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: #555;
+      margin-top: 0.6rem;
+      display: none;
+    }
+    .lb-entry-desc.open { display: block; }
+    .lb-entry-desc .lb-skills {
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
+      color: #888;
+    }
+    .lb-entry-desc .lb-skills strong { color: #555; font-weight: 700; }
+    .lb-read-more {
+      background: none;
+      border: none;
+      padding: 0;
+      margin-top: 0.35rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--olive-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .lb-read-more:hover { color: var(--olive-dk); }
+    .lb-read-more .rm-arrow { transition: transform 0.2s; display: inline-block; }
+    .lb-read-more.open .rm-arrow { transform: rotate(90deg); }
 
     /* ─── RESPONSIVE ─────────────────────────────────────────── */
     @media (max-width: 900px) {
@@ -709,6 +828,16 @@
         <span>Artist</span><br>
         <span>Music Composition &amp; Teaching</span>
       </div>
+    </div>
+
+    <!-- ABOUT ME -->
+    <div class="about-section">
+      <p class="about-label">about me</p>
+      <div class="about-text">
+        <p>I've been a creative person for as long as I can remember- starting with piano at five, and painting even before that. Teaching piano since I was sixteen- to students anywhere from five years old to over sixty- taught me a lot about patience and about reading what someone actually means when they can't quite put it into words. Product design ended up feeling like a natural next step, since it's really the same instinct: understanding what people need, and then using my skills to build it.</p>
+        <p>This instinct is also what got me through a rocky start at university. First year, I didn't really understand how any of it worked yet, but I stuck with it, and now I average 80-90% and made the Dean's List for 24-25. Outside of my degree, I keep making things- composing music, digital art, and most recently getting into bookbinding. I try to take the same care with my body as I do with my work, so early runs, the gym, and badminton with friends are part of the routine too. If there's one thread running through all of this, it's that I notice a gap and go and do something about it- whether that's a skill, a habit, or just showing up somewhere new.</p>
+      </div>
+      <button class="about-expand-btn" onclick="document.getElementById('about-lb').classList.add('open')">Read about me ›</button>
     </div>
 
     <!-- MAP + SKILLS -->
@@ -972,6 +1101,18 @@
     </div>
   </div>
 
+  <!-- ABOUT LIGHTBOX (mobile) -->
+  <div class="about-lb" id="about-lb" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="about-lb-box">
+      <button class="about-lb-close" onclick="document.getElementById('about-lb').classList.remove('open')">✕</button>
+      <p class="about-lb-label">about me</p>
+      <div class="about-lb-text">
+        <p>I've been a creative person for as long as I can remember- starting with piano at five, and painting even before that. Teaching piano since I was sixteen- to students anywhere from five years old to over sixty- taught me a lot about patience and about reading what someone actually means when they can't quite put it into words. Product design ended up feeling like a natural next step, since it's really the same instinct: understanding what people need, and then using my skills to build it.</p>
+        <p>This instinct is also what got me through a rocky start at university. First year, I didn't really understand how any of it worked yet, but I stuck with it, and now I average 80-90% and made the Dean's List for 24-25. Outside of my degree, I keep making things- composing music, digital art, and most recently getting into bookbinding. I try to take the same care with my body as I do with my work, so early runs, the gym, and badminton with friends are part of the routine too. If there's one thread running through all of this, it's that I notice a gap and go and do something about it- whether that's a skill, a habit, or just showing up somewhere new.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="lb-overlay" id="lb-vol" onclick="closeLightbox(event,'lb-vol')">
     <div class="lb-box">
       <button class="lb-close" onclick="document.getElementById('lb-vol').classList.remove('open')">&times;</button>
@@ -982,23 +1123,43 @@
           <p class="lb-entry-main">Welcome Team</p>
           <p class="lb-entry-sub">Strath Union</p>
           <p class="lb-entry-date">September 2025 – 2026</p>
+          <button class="lb-read-more" onclick="toggleDesc(this)">Read more <span class="rm-arrow">›</span></button>
+          <div class="lb-entry-desc">
+            I decided to volunteer for Welcome Team as I was still fairly shy during first and second year, having left high school early and struggled a bit with putting myself out there. It's quite possibly one of the best decisions I made: I learned how to approach people and speak confidently, and really changed how I see both myself and others. It was hard, exhausting work by the last few days, but great learning to work in a team and keep each other motivated. I learned a lot from other team leaders about how to delegate tasks and maintain an inclusive environment - and with so many events happening at once, staying aware of what needed doing and taking initiative was vital. It felt good to be welcoming, and a friendly face to new students who probably felt exactly as nervous as I did on my first week.
+            <p class="lb-skills"><strong>Skills:</strong> confidence-building, delegation, taking initiative, event coordination, teamwork under pressure, inclusivity, lifting tables <em>without</em> pulling a muscle</p>
+          </div>
         </div>
         <div class="lb-divider"></div>
         <div class="lb-entry">
           <p class="lb-entry-main">Engineering the Future for Girls - <strong>Mentor</strong></p>
           <p class="lb-entry-sub">University of Strathclyde</p>
           <p class="lb-entry-date">June 2025 – 2026</p>
+          <button class="lb-read-more" onclick="toggleDesc(this)">Read more <span class="rm-arrow">›</span></button>
+          <div class="lb-entry-desc">
+            I had heard about this in school but couldn't attend, so in second year of university I applied to be a mentor instead. I was in charge of a group of ten girls, guiding them through activities across different engineering disciplines over the course of the week. It was useful for me too - product design bridges the gap between different areas, so it was great getting a close look at how other disciplines operate and what kind of issues they are facing, what problems they are trying to tackle. In terms of mentoring, I built on skills from piano teaching: explaining things well, encouraging the team to keep going, and maintaining enthusiasm - as the attitude you project as a leader is how your team responds to you, and in turn, to the task.
+            <p class="lb-skills"><strong>Skills:</strong> leadership, mentoring, cross-disciplinary awareness, communication, motivation</p>
+          </div>
         </div>
         <div class="lb-divider"></div>
         <div class="lb-entry">
           <p class="lb-entry-main">Scottish Space School - <strong>DMEM Mentor</strong></p>
           <p class="lb-entry-date">June 2026</p>
+          <button class="lb-read-more" onclick="toggleDesc(this)">Read more <span class="rm-arrow">›</span></button>
+          <div class="lb-entry-desc">
+            I worked as a DMEM mentor guiding students through project development and poster-making, essentially packing all my years of learning about methodologies, concept development and selection into something that could be followed and applied by participants in one day.
+            <p class="lb-skills"><strong>Skills:</strong> knowledge synthesis, mentoring, communicating technical processes concisely</p>
+          </div>
         </div>
         <div class="lb-divider"></div>
         <div class="lb-entry">
           <p class="lb-entry-main">DMEM Educational Outreach Programme - <strong>Mentor</strong></p>
           <p class="lb-entry-sub">Woodfarm High School</p>
           <p class="lb-entry-date">March 2025</p>
+          <button class="lb-read-more" onclick="toggleDesc(this)">Read more <span class="rm-arrow">›</span></button>
+          <div class="lb-entry-desc">
+            This was a short visit to my old high school to oversee the work students were doing and talk to them about DMEM: what we do, and what opportunities are available. I came away more impressed than I expected by the work the students were doing, and learned a lot from them too. In fact, I would say their work encouraged me to push myself harder in my own work too.
+            <p class="lb-skills"><strong>Skills:</strong> public engagement, communication, openness to learning from others</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1044,6 +1205,13 @@
       const el = document.getElementById(ids[key]);
       if (el) { el.classList.add('open'); document.body.style.overflow = 'hidden'; }
     }
+    function toggleDesc(btn) {
+      const desc = btn.nextElementSibling;
+      const open = desc.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      btn.childNodes[0].textContent = open ? 'Read less ' : 'Read more ';
+    }
+
     function closeLightbox(e, id) {
       if (e.target === document.getElementById(id)) {
         document.getElementById(id).classList.remove('open');
