@@ -250,7 +250,14 @@
     @media (max-width: 600px) {
       .about-section { padding: 1.5rem 1.25rem 0; }
       .about-text { display: none; }
-      .about-expand-btn { display: inline-block; }
+      .about-expand-btn { display: none; }
+      .about-label {
+        font-size: 0.85rem;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
     }
     /* About lightbox (mobile) */
     .about-lb {
@@ -831,7 +838,7 @@
 
     <!-- ABOUT ME -->
     <div class="about-section">
-      <p class="about-label">about me</p>
+      <p class="about-label" onclick="if(window.innerWidth<=600)document.getElementById('about-lb').classList.add('open')">about me</p>
       <div class="about-text">
         <p>I've been a creative person for as long as I can remember- starting with piano at five, and painting even before that. Teaching piano since I was sixteen- to students anywhere from five years old to over sixty- taught me a lot about patience and about reading what someone actually means when they can't quite put it into words. Product design ended up feeling like a natural next step, since it's really the same instinct: understanding what people need, and then using my skills to build it.</p>
         <p>This instinct is also what got me through a rocky start at university. First year, I didn't really understand how any of it worked yet, but I stuck with it, and now I average 80-90% and made the Dean's List for 24-25. Outside of my degree, I keep making things- composing music, digital art, and most recently getting into bookbinding. I try to take the same care with my body as I do with my work, so early runs, the gym, and badminton with friends are part of the routine too. If there's one thread running through all of this, it's that I notice a gap and go and do something about it- whether that's a skill, a habit, or just showing up somewhere new.</p>
