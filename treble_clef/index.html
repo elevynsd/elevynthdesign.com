@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Treble Clef Flashcards</title>
+<style>
+  :root { --ink:#1d2433; --muted:#6b7280; --accent:#2f5d8c; --bg:#eef2f6; --card:#ffffff; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; flex-direction:column; align-items:center;
+         font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { text-align:center; padding:28px 16px 8px; }
+  h1 { margin:0 0 6px; font-size:1.6rem; }
+  header p { margin:0; color:var(--muted); }
+  main { width:min(760px, 94vw); padding:18px 0 40px; }
+  .scene { perspective:1400px; cursor:pointer; outline:none; }
+  .card { position:relative; width:100%; aspect-ratio: 16/9; transition:transform .5s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d; }
+  .card.flipped { transform:rotateX(180deg); }
+  .face { position:absolute; inset:0; background:var(--card); border-radius:18px; box-shadow:0 6px 24px rgba(20,30,50,.12);
+          display:flex; align-items:center; justify-content:center; backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden; }
+  .back { transform:rotateX(180deg); }
+  #staff { width:100%; display:flex; justify-content:center; margin-bottom:40px; }
+  .face svg { width:80%; height:auto; }
+  .letter { font-size:clamp(4rem, 14vw, 8rem); font-weight:600; color:var(--accent); }
+  .hint { position:absolute; bottom:0; left:0; right:0; text-align:center; padding:10px; font-size:.9rem; color:var(--muted);
+          border-top:1px solid #e5e7eb; }
+  .scene:focus-visible .face { box-shadow:0 0 0 4px rgba(47,93,140,.45), 0 6px 24px rgba(20,30,50,.12); }
+  .controls { display:flex; align-items:center; justify-content:space-between; margin-top:18px; gap:12px; }
+  .nav { display:flex; align-items:center; gap:14px; }
+  button { font:inherit; border:none; border-radius:999px; background:#fff; color:var(--ink); padding:10px 18px;
+           box-shadow:0 2px 8px rgba(20,30,50,.1); cursor:pointer; }
+  button:hover:not(:disabled) { background:#f3f6fa; }
+  button:disabled { opacity:.35; cursor:default; }
+  button.round { width:48px; height:48px; padding:0; font-size:1.4rem; }
+  button.on { background:var(--accent); color:#fff; }
+  #count { min-width:64px; text-align:center; font-variant-numeric:tabular-nums; color:var(--muted); }
+  .keys { text-align:center; color:var(--muted); font-size:.85rem; margin-top:18px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Treble Clef Flashcards</h1>
+  <p>Name the letter of each note. Click the card to check your answer.</p>
+</header>
+<main>
+  <div class="scene" id="scene" tabindex="0" role="button" aria-label="Flashcard. Press to flip.">
+    <div class="card" id="card">
+      <div class="face front"><div id="staff"></div><div class="hint">Click the card to flip it</div></div>
+      <div class="face back"><div class="letter" id="letter"></div></div>
+    </div>
+  </div>
+  <div class="controls">
+    <button id="shuffle" title="Shuffle the cards">&#x21C4; Shuffle</button>
+    <div class="nav">
+      <button class="round" id="prev" aria-label="Previous card">&larr;</button>
+      <span id="count"></span>
+      <button class="round" id="next" aria-label="Next card">&rarr;</button>
+    </div>
+    <button id="restart" title="Go back to the first card">Restart</button>
+  </div>
+  <div class="keys">Keyboard: Space to flip &middot; &larr; &rarr; to move between cards</div>
+</main>
+<script>
+  // Notes from the bottom line (E) to the top line (F). step = staff position, 0 = bottom line.
+  const NOTES = [
+    {name:'E', step:0}, {name:'F', step:1}, {name:'G', step:2}, {name:'A', step:3}, {name:'B', step:4},
+    {name:'C', step:5}, {name:'D', step:6}, {name:'E', step:7}, {name:'F', step:8}
+  ];
+  const CLEF = "M376 415C374 427 376 428 382 434C490 535 572 662 572 815C572 902 548 988 507 1048C492 1070 466 1098 455 1098C441 1098 410 1072 390 1050C316 968 292 843 292 739C292 681 299 616 306 575C308 563 309 561 297 551C153 432 0 289 0 87C0 -87 119 -252 364 -252C387 -252 413 -250 433 -246C444 -244 446 -243 448 -255C460 -322 475 -409 475 -456C475 -604 375 -622 316 -622C262 -622 236 -606 236 -593C236 -586 245 -583 268 -576C299 -567 335 -540 335 -482C335 -427 300 -380 239 -380C172 -380 132 -433 132 -495C132 -560 171 -658 322 -658C389 -658 519 -628 519 -458C519 -401 501 -306 490 -244C488 -232 489 -233 503 -227C604 -187 671 -102 671 11C671 139 577 252 430 252C404 252 404 252 401 270ZM470 943C503 943 530 916 530 861C530 750 435 660 356 591C349 585 345 586 343 599C339 625 337 659 337 691C337 847 409 943 470 943ZM361 262C364 243 364 244 346 238C258 208 201 129 201 44C201 -46 248 -110 316 -133C324 -136 336 -139 343 -139C351 -139 355 -134 355 -128C355 -121 347 -118 340 -115C298 -97 268 -54 268 -8C268 49 307 92 368 109C384 113 386 112 388 101L438 -197C440 -208 439 -208 424 -211C408 -214 388 -216 368 -216C193 -216 80 -119 80 20C80 79 90 158 173 252C233 319 279 356 326 394C336 402 338 401 340 390ZM430 103C428 115 429 118 441 117C522 110 589 42 589 -46C589 -109 551 -160 495 -188C483 -194 481 -194 479 -182Z";
+  const HEAD = "M97 -125C186 -125 295 -43 295 42C295 93 255 125 198 125C88 125 0 44 0 -42C0 -94 43 -125 97 -125Z";
+  const S = 0.08;           // font units -> pixels (1 staff space = 20px)
+  const BOTTOM = 140;       // y of the bottom staff line
+
+  function staffSVG(step) {
+    let lines = '';
+    for (let i = 0; i < 5; i++) {
+      const y = BOTTOM - i * 20;
+      lines += `<line x1="10" y1="${y}" x2="390" y2="${y}" stroke="#111" stroke-width="2.6"/>`;
+    }
+    const y = BOTTOM - step * 10, nx = 210, w = 295 * S;
+    const stem = step >= 4   // middle line and above: stem down on the left
+      ? `<line x1="${nx + 1.1}" y1="${y + 2}" x2="${nx + 1.1}" y2="${y + 70}" stroke="#111" stroke-width="2.4"/>`
+      : `<line x1="${nx + w - 1.1}" y1="${y - 2}" x2="${nx + w - 1.1}" y2="${y - 70}" stroke="#111" stroke-width="2.4"/>`;
+    return `<svg viewBox="0 0 400 200" role="img" aria-label="A note on the treble staff">
+      ${lines}
+      <path d="${CLEF}" fill="#111" transform="translate(24 120) scale(${S} ${-S})"/>
+      <path d="${HEAD}" fill="#111" transform="translate(${nx} ${y}) scale(${S} ${-S})"/>
+      ${stem}</svg>`;
+  }
+
+  let order = NOTES.map((_, i) => i), pos = 0, shuffled = false;
+  const card = document.getElementById('card');
+
+  function render() {
+    card.classList.remove('flipped');
+    const note = NOTES[order[pos]];
+    document.getElementById('staff').innerHTML = staffSVG(note.step);
+    // wait for the flip-back before swapping the answer, so it isn't revealed early
+    setTimeout(() => { document.getElementById('letter').textContent = note.name; }, 250);
+    document.getElementById('count').textContent = `${pos + 1} / ${order.length}`;
+    document.getElementById('prev').disabled = pos === 0;
+    document.getElementById('next').disabled = pos === order.length - 1;
+  }
+  function flip() { card.classList.toggle('flipped'); }
+  function go(d) { const p = pos + d; if (p >= 0 && p < order.length) { pos = p; render(); } }
+  function shuffle() {
+    shuffled = !shuffled;
+    order = NOTES.map((_, i) => i);
+    if (shuffled) for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    document.getElementById('shuffle').classList.toggle('on', shuffled);
+    pos = 0; render();
+  }
+  function restart() {
+    if (shuffled) { shuffled = false; shuffle(); } else { pos = 0; render(); }
+  }
+
+  document.getElementById('scene').addEventListener('click', flip);
+  document.getElementById('prev').addEventListener('click', () => go(-1));
+  document.getElementById('next').addEventListener('click', () => go(1));
+  document.getElementById('shuffle').addEventListener('click', shuffle);
+  document.getElementById('restart').addEventListener('click', restart);
+  document.addEventListener('keydown', e => {
+    if ((e.key === ' ' || e.key === 'Enter') && e.target.tagName !== 'BUTTON') { e.preventDefault(); flip(); }
+    else if (e.key === 'ArrowRight') go(1);
+    else if (e.key === 'ArrowLeft') go(-1);
+  });
+  render();
+</script>
+</body>
+</html>
