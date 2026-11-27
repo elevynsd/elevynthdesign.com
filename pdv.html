@@ -469,7 +469,13 @@
   </a>
 
   <!-- ══ LANDING ══════════════════════════════════════════════════ -->
-<div class="landing" id="landing">
+  <!-- LOADING OVERLAY -->
+  <div class="pdv-loader" id="pdv-loader">
+    <div class="pdv-loader-track"><div class="pdv-loader-bar" id="pdv-loader-bar"></div></div>
+    <p class="pdv-loader-label">Loading</p>
+  </div>
+
+  <div class="landing" id="landing">
     <h1 class="landing-title">Product design <span>visualisation</span></h1>
 
     <div class="project-cards">
@@ -665,6 +671,35 @@
 
     /* ── Open / close ── */
     function openProject(id) {
+      const loader = document.getElementById('pdv-loader');
+      const bar    = document.getElementById('pdv-loader-bar');
+
+      const srcs = Array.from(document.querySelectorAll('#carousel-' + id + ' img')).map(i => i.src);
+      const total = srcs.length;
+
+      bar.style.width = '0%';
+      loader.classList.add('active');
+
+      let loaded = 0;
+      function onLoad() {
+        loaded++;
+        bar.style.width = (loaded / total * 100) + '%';
+        if (loaded >= total) {
+          setTimeout(() => {
+            loader.classList.remove('active');
+          }, 180);
+        }
+      }
+
+      // Preload via JS Image objects — works regardless of lazy/hidden state
+      srcs.forEach(src => {
+        const img = new Image();
+        img.onload  = onLoad;
+        img.onerror = onLoad;
+        img.src = src;
+      });
+
+      // Show carousel behind the loader
       document.getElementById('landing').classList.add('hidden');
       document.getElementById('carousel-' + id).classList.add('active');
       logo.style.display = 'none';
