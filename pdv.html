@@ -673,9 +673,18 @@
     function openProject(id) {
       const loader = document.getElementById('pdv-loader');
       const bar    = document.getElementById('pdv-loader-bar');
-      const imgs   = Array.from(document.querySelectorAll('#carousel-' + id + ' img'));
-      const total  = imgs.length;
-      if (total === 0) { launchCarousel(id); return; }
+
+      // Show carousel immediately so lazy images start loading, loader sits on top
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('carousel-' + id).classList.add('active');
+      logo.style.display = 'none';
+      state[id].current = 0;
+      updateCarousel(id, 1);
+      window.scrollTo(0, 0);
+
+      const imgs = Array.from(document.querySelectorAll('#carousel-' + id + ' img'));
+      const total = imgs.length;
+      if (total === 0) return;
 
       let loaded = 0;
       bar.style.width = '0%';
@@ -685,27 +694,17 @@
         loaded++;
         bar.style.width = (loaded / total * 100) + '%';
         if (loaded >= total) {
-          setTimeout(() => {
-            loader.classList.remove('active');
-            launchCarousel(id);
-          }, 180);
+          setTimeout(() => loader.classList.remove('active'), 180);
         }
       }
 
       imgs.forEach(img => {
         if (img.complete && img.naturalWidth > 0) { onLoad(); }
-        else { img.addEventListener('load', onLoad, { once: true });
-               img.addEventListener('error', onLoad, { once: true }); }
+        else {
+          img.addEventListener('load',  onLoad, { once: true });
+          img.addEventListener('error', onLoad, { once: true });
+        }
       });
-    }
-
-    function launchCarousel(id) {
-      document.getElementById('landing').classList.add('hidden');
-      document.getElementById('carousel-' + id).classList.add('active');
-      logo.style.display = 'none';
-      state[id].current = 0;
-      updateCarousel(id, 1);
-      window.scrollTo(0, 0);
     }
     function closeDee() {
       document.getElementById('carousel-dee').classList.remove('active');
