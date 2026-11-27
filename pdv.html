@@ -209,6 +209,38 @@
     .project-card:hover::before { background: var(--amber); }
     .project-card--iip:hover::before { background: var(--terra); }
 
+    /* ── LOADING OVERLAY ── */
+    .pdv-loader {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      background: #07031b;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .pdv-loader.active { display: flex; }
+    .pdv-loader-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(232,228,220,0.25);
+    }
+    .pdv-loader-track {
+      width: 160px;
+      height: 1px;
+      background: rgba(232,228,220,0.1);
+    }
+    .pdv-loader-bar {
+      height: 1px;
+      width: 0%;
+      background: #C8960C;
+      transition: width 0.2s ease;
+    }
+
     /* ══════════════════════════════════════
        CAROUSEL VIEW
     ══════════════════════════════════════ */
@@ -437,6 +469,12 @@
   </a>
 
   <!-- ══ LANDING ══════════════════════════════════════════════════ -->
+  <!-- LOADING OVERLAY -->
+  <div class="pdv-loader" id="pdv-loader">
+    <div class="pdv-loader-track"><div class="pdv-loader-bar" id="pdv-loader-bar"></div></div>
+    <p class="pdv-loader-label">Loading</p>
+  </div>
+
   <div class="landing" id="landing">
     <h1 class="landing-title">Product design <span>visualisation</span></h1>
 
@@ -633,6 +671,35 @@
 
     /* ── Open / close ── */
     function openProject(id) {
+      const loader = document.getElementById('pdv-loader');
+      const bar    = document.getElementById('pdv-loader-bar');
+      const imgs   = Array.from(document.querySelectorAll('#carousel-' + id + ' img'));
+      const total  = imgs.length;
+      if (total === 0) { launchCarousel(id); return; }
+
+      let loaded = 0;
+      bar.style.width = '0%';
+      loader.classList.add('active');
+
+      function onLoad() {
+        loaded++;
+        bar.style.width = (loaded / total * 100) + '%';
+        if (loaded >= total) {
+          setTimeout(() => {
+            loader.classList.remove('active');
+            launchCarousel(id);
+          }, 180);
+        }
+      }
+
+      imgs.forEach(img => {
+        if (img.complete && img.naturalWidth > 0) { onLoad(); }
+        else { img.addEventListener('load', onLoad, { once: true });
+               img.addEventListener('error', onLoad, { once: true }); }
+      });
+    }
+
+    function launchCarousel(id) {
       document.getElementById('landing').classList.add('hidden');
       document.getElementById('carousel-' + id).classList.add('active');
       logo.style.display = 'none';
