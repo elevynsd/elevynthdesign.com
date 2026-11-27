@@ -674,37 +674,38 @@
       const loader = document.getElementById('pdv-loader');
       const bar    = document.getElementById('pdv-loader-bar');
 
-      // Show carousel immediately so lazy images start loading, loader sits on top
+      const srcs = Array.from(document.querySelectorAll('#carousel-' + id + ' img')).map(i => i.src);
+      const total = srcs.length;
+
+      bar.style.width = '0%';
+      loader.classList.add('active');
+
+      let loaded = 0;
+      function onLoad() {
+        loaded++;
+        bar.style.width = (loaded / total * 100) + '%';
+        if (loaded >= total) {
+          setTimeout(() => {
+            loader.classList.remove('active');
+          }, 180);
+        }
+      }
+
+      // Preload via JS Image objects — works regardless of lazy/hidden state
+      srcs.forEach(src => {
+        const img = new Image();
+        img.onload  = onLoad;
+        img.onerror = onLoad;
+        img.src = src;
+      });
+
+      // Show carousel behind the loader
       document.getElementById('landing').classList.add('hidden');
       document.getElementById('carousel-' + id).classList.add('active');
       logo.style.display = 'none';
       state[id].current = 0;
       updateCarousel(id, 1);
       window.scrollTo(0, 0);
-
-      const imgs = Array.from(document.querySelectorAll('#carousel-' + id + ' img'));
-      const total = imgs.length;
-      if (total === 0) return;
-
-      let loaded = 0;
-      bar.style.width = '0%';
-      loader.classList.add('active');
-
-      function onLoad() {
-        loaded++;
-        bar.style.width = (loaded / total * 100) + '%';
-        if (loaded >= total) {
-          setTimeout(() => loader.classList.remove('active'), 180);
-        }
-      }
-
-      imgs.forEach(img => {
-        if (img.complete && img.naturalWidth > 0) { onLoad(); }
-        else {
-          img.addEventListener('load',  onLoad, { once: true });
-          img.addEventListener('error', onLoad, { once: true });
-        }
-      });
     }
     function closeDee() {
       document.getElementById('carousel-dee').classList.remove('active');
